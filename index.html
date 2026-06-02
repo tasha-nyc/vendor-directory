@@ -520,10 +520,16 @@ function cardHTML(v,i){
       ${v.by?`<div class="rec-by">⭐ <span>${v.by}</span></div>`:''}
     </div>
     <div class="card-actions">
-      <button class="btn-sm btn-plus" onclick="plusOne('${v.id}')">👍 +1${pl}</button>
+      <button class="btn-sm btn-plus" onclick="plusOne('${v.id}')" style="${hasVoted(v.id)?'opacity:.45;cursor:not-allowed':''}">👍 +1${pl}</button>
       <button class="btn-sm" onclick="openEdit('${v.id}')">✏️ Edit</button>
     </div>
   </div>`;
+}
+
+function hasVoted(id){
+  if(!currentUser)return false;
+  const voted=JSON.parse(localStorage.getItem('voted')||'{}');
+  return !!voted[currentUser+'_'+id];
 }
 
 function render(){
@@ -544,8 +550,20 @@ function doFilter(){currentSearch=document.getElementById('search').value;render
 
 async function plusOne(id){
   const v=vendors.find(x=>x.id===id);if(!v)return;
+  const voted=JSON.parse(localStorage.getItem('voted')||'{}');
+  const key=currentUser+'_'+id;
+  if(voted[key]){showToast('You already +1'd this vendor!');return;}
   v.plusOnes=(v.plusOnes||0)+1;
+  voted[key]=true;
+  localStorage.setItem('voted',JSON.stringify(voted));
   await saveVendors(v);render();
+}
+
+function showToast(msg){
+  let t=document.getElementById('toast-msg');
+  if(!t){t=document.createElement('div');t.id='toast-msg';t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#000;color:white;padding:.6rem 1.25rem;border-radius:20px;font-size:.82rem;font-weight:500;z-index:999;opacity:0;transition:opacity .3s;font-family:Inter,sans-serif';document.body.appendChild(t);}
+  t.textContent=msg;t.style.opacity='1';
+  setTimeout(()=>{t.style.opacity='0';},2500);
 }
 
 function clearForm(){
