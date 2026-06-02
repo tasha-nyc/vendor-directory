@@ -428,10 +428,39 @@ async function getSettings(){
       sbGet('settings','key=eq.access_code&select=value'),
       sbGet('members','select=email'),
     ]);
-    const code=(codeRows&&codeRows[0])?codeRows[0].value:'ops2026';
-    const members=(memberRows||[]).map(m=>m.email);
-    return{code,members};
-  }catch{return{code:'ops2026',members:[]};}
+    const code=(codeRows&&codeRows.length)?codeRows[0].value:'ops2026';
+    const members=(memberRows||[]).map(m=>m.email.toLowerCase());
+    return{code,members,loaded:true};
+  }catch{return{code:'ops2026',members:[],loaded:false};}
+}
+
+async function tryLogin(){
+  const email=(document.getElementById('li-email').value||'').trim().toLowerCase();
+  const code=(document.getElementById('li-code').value||'').trim();
+  const err=document.getElementById('li-err');
+  if(!email||!code){err.textContent='Please enter both email and code.';err.style.display='block';return;}
+  err.style.display='none';
+
+  const isAdmin=(email===ADMIN_EMAIL&&code===ADMIN_CODE);
+  if(isAdmin){currentUser=email;sessionStorage.setItem('dir-user',email);showApp();return;}
+
+  const s=await getSettings();
+
+  if(!s.loaded){
+    // Supabase not reachable — allow if code matches
+    if(code===s.code||code==='ops2026'){
+      currentUser=email;sessionStorage.setItem('dir-user',email);showApp();return;
+    }
+    err.textContent='Incorrect code. Please try again.';err.style.display='block';
+    document.getElementById('li-code').value='';return;
+  }
+
+  const memberOk=s.members.includes(email);
+  const codeOk=(code===s.code);
+  if(!memberOk){err.textContent='Your email is not on the access list.';err.style.display='block';document.getElementById('li-code').value='';return;}
+  if(!codeOk){err.textContent='Incorrect code. Please try again.';err.style.display='block';document.getElementById('li-code').value='';return;}
+  currentUser=email;sessionStorage.setItem('dir-user',email);showApp();
+}
 }
 
 async function tryLogin(){
@@ -608,8 +637,9 @@ async function saveVendor(){
 (async()=>{
   const saved=sessionStorage.getItem('dir-user');
   if(saved){
+    if(saved===ADMIN_EMAIL){currentUser=saved;showApp();return;}
     const s=await getSettings();
-    if(saved===ADMIN_EMAIL||s.members.find(m=>m.toLowerCase()===saved.toLowerCase())){
+    if(!s.loaded||s.members.includes(saved.toLowerCase())){
       currentUser=saved;showApp();return;
     }
   }
