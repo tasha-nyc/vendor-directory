@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendor Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1a1a;--soft:#555;--muted:#999;--paper:#faf8f4;--warm:#f2ede3;--accent:#c9622a;--al:#f5e6db;--border:#e0d8cc;--green:#2d6a4f;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
+
+/* ── LOGIN ── */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--ink)}
+.login-box{background:white;border-radius:20px;padding:2.5rem 2.5rem 2rem;width:100%;max-width:400px;display:flex;flex-direction:column;gap:1.4rem}
+.login-logo{font-family:'DM Serif Display',serif;font-size:1.7rem;color:var(--ink);line-height:1.1}
+.login-logo em{color:var(--accent);font-style:italic}
+.login-sub{font-size:.88rem;color:var(--muted);margin-top:-.5rem;line-height:1.5}
+.lf{display:flex;flex-direction:column;gap:.3rem}
+.lf label{font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.lf input{border:1.5px solid var(--border);border-radius:9px;padding:.65rem .9rem;font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--ink);outline:none;transition:border-color .2s;width:100%}
+.lf input:focus{border-color:var(--accent)}
+.btn-login{background:var(--ink);color:white;border:none;border-radius:9px;padding:.75rem;font-family:'DM Sans',sans-serif;font-size:.95rem;cursor:pointer;width:100%;transition:opacity .2s}
+.btn-login:hover{opacity:.85}
+.login-err{color:#dc2626;font-size:.82rem;display:none;text-align:center}
+.login-footer{font-size:.75rem;color:var(--muted);text-align:center}
+
+/* ── APP ── */
+#app{display:none}
+header{background:var(--ink);color:var(--paper);padding:2.5rem 2rem 2rem;position:relative;overflow:hidden}
+header::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:rgba(201,98,42,.18)}
+header::after{content:'';position:absolute;bottom:-70px;left:30%;width:180px;height:180px;border-radius:50%;background:rgba(201,98,42,.10)}
+.hi{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.h-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+header h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.2rem);letter-spacing:-.02em;line-height:1.1}
+header h1 em{color:var(--accent);font-style:italic}
+header p{margin-top:.5rem;color:rgba(250,248,244,.6);font-size:.88rem;font-weight:300}
+.h-right{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.h-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:.3rem .8rem;border-radius:20px;font-size:.76rem;color:rgba(250,248,244,.8)}
+.btn-signout{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:rgba(250,248,244,.75);padding:.3rem .8rem;border-radius:20px;font-size:.76rem;font-family:'DM Sans',sans-serif;cursor:pointer}
+.btn-signout:hover{background:rgba(255,255,255,.18)}
+.header-meta{display:flex;align-items:center;gap:.6rem;margin-top:1.2rem;flex-wrap:wrap}
+.mp{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:.28rem .75rem;border-radius:20px;font-size:.76rem;color:rgba(250,248,244,.8)}
+.btn-add-h{background:var(--accent);border:none;color:white;padding:.28rem .95rem;border-radius:20px;font-size:.76rem;font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;gap:.3rem}
+.btn-add-h:hover{opacity:.85}
+
+.controls{max-width:1100px;margin:1.75rem auto;padding:0 2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.sw{flex:1;min-width:220px;position:relative}
+.sw input{width:100%;padding:.62rem 1rem .62rem 2.3rem;border:1.5px solid var(--border);border-radius:8px;background:white;font-family:'DM Sans',sans-serif;font-size:.87rem;color:var(--ink);outline:none;transition:border-color .2s}
+.sw input:focus{border-color:var(--accent)}
+.si{position:absolute;left:.72rem;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:.95rem}
+.fr{display:flex;gap:.38rem;flex-wrap:wrap}
+.fb{padding:.33rem .8rem;border:1.5px solid var(--border);border-radius:20px;background:white;font-family:'DM Sans',sans-serif;font-size:.75rem;color:var(--soft);cursor:pointer;transition:all .15s;white-space:nowrap}
+.fb:hover{border-color:var(--accent);color:var(--accent)}
+.fb.active{background:var(--accent);border-color:var(--accent);color:white}
+.cnt{font-size:.77rem;color:var(--muted);white-space:nowrap}
+
+/* ── GRID ── */
+.grid{max-width:1100px;margin:0 auto 4rem;padding:0 2rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem}
+
+/* ── CARD ── */
+.card{background:white;border:1.5px solid var(--border);border-radius:12px;padding:1.15rem 1.3rem 1.05rem;display:flex;flex-direction:column;gap:.5rem;transition:box-shadow .2s,transform .2s;animation:fu .4s ease both}
+.card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)}
+.card.is-new{border-color:var(--accent);border-width:2px}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+.card-names{display:flex;flex-direction:column;gap:.18rem;flex:1;min-width:0}
+.biz-name{font-family:'DM Serif Display',serif;font-size:1.08rem;line-height:1.2;color:var(--ink)}
+.contact-name{font-size:.78rem;color:var(--muted);font-weight:400}
+.bdg{font-size:.67rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;padding:.22rem .55rem;border-radius:20px;white-space:nowrap;flex-shrink:0;align-self:flex-start}
+
+.cat-transportation{background:#dbeafe;color:#1a4a7a}.cat-it{background:#ede9fe;color:#5a2d8a}
+.cat-printing{background:#fef9c3;color:#854f0b}.cat-swag{background:#fce7f3;color:#9d174d}
+.cat-legal{background:#d1fae5;color:#064e3b}.cat-eventplanner{background:#fff3e0;color:#8b4513}
+.cat-venue{background:#fce4ec;color:#880e4f}.cat-teambuilding{background:#e8f5e9;color:#1b5e20}
+.cat-speaker{background:#e3f2fd;color:#0d47a1}.cat-entertainment{background:#f3e5f5;color:#4a148c}
+.cat-fitness{background:#dcfce7;color:#166534}.cat-catering{background:#fef3c7;color:#92400e}
+.cat-design{background:#eef2ff;color:#3730a3}.cat-recruiting{background:#fdf4ff;color:#7e22ce}
+.cat-other{background:#f2ede3;color:#555}
+
+.desc{font-size:.83rem;color:var(--soft);line-height:1.55;font-style:italic}
+.meta{display:flex;flex-direction:column;gap:.28rem}
+.mr{display:flex;align-items:flex-start;gap:.42rem;font-size:.79rem;color:var(--soft)}
+.lb{color:var(--muted);font-size:.68rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;min-width:56px;padding-top:1px;flex-shrink:0}
+.mr a{color:var(--accent);text-decoration:none}.mr a:hover{text-decoration:underline}
+.footer{display:flex;flex-wrap:wrap;gap:.32rem;padding-top:.58rem;border-top:1px solid var(--border);align-items:center;justify-content:space-between}
+.tags{display:flex;flex-wrap:wrap;gap:.26rem}
+.tag{background:var(--warm);color:var(--soft);font-size:.66rem;padding:.16rem .44rem;border-radius:20px}
+.rec-by{font-size:.71rem;color:var(--muted)}.rec-by span{color:var(--green);font-weight:500}
+.card-actions{display:flex;gap:.4rem}
+.btn-sm{border:1.5px solid var(--border);background:white;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.72rem;color:var(--soft);cursor:pointer;padding:.26rem .62rem;display:flex;align-items:center;gap:.26rem;transition:all .15s}
+.btn-sm:hover{border-color:var(--accent);color:var(--accent)}
+.btn-plus{border-color:#16a34a;color:#16a34a}
+.btn-plus:hover{background:#f0fdf4}
+.pc{background:#16a34a;color:white;border-radius:20px;padding:.02rem .36rem;font-size:.65rem;margin-left:.16rem}
+.add-card-btn{background:white;border:1.5px dashed var(--border);border-radius:12px;padding:1.8rem 1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;cursor:pointer;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.86rem;transition:all .2s;animation:fu .4s ease both}
+.add-card-btn:hover{border-color:var(--accent);color:var(--accent)}
+.add-card-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.5}
+.empty{text-align:center;padding:4rem 2rem;color:var(--muted);grid-column:1/-1;font-style:italic;font-family:'DM Serif Display',serif;font-size:1.1rem}
+
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:white;border-radius:16px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;transform:translateY(20px);transition:transform .25s}
+.overlay.open .modal{transform:translateY(0)}
+.modal h2{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--ink)}
+.modal h2 em{color:var(--accent);font-style:italic}
+.fg{display:flex;flex-direction:column;gap:.28rem}
+.fg label{font-size:.69rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.fg input,.fg select,.fg textarea{border:1.5px solid var(--border);border-radius:8px;padding:.56rem .82rem;font-family:'DM Sans',sans-serif;font-size:.87rem;color:var(--ink);outline:none;transition:border-color .2s;background:white;width:100%}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent)}
+.fg textarea{resize:vertical;min-height:62px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.modal-footer{display:flex;gap:.65rem;justify-content:flex-end;padding-top:.5rem;border-top:1px solid var(--border)}
+.btn-cancel{background:white;border:1.5px solid var(--border);border-radius:8px;padding:.48rem 1.05rem;font-family:'DM Sans',sans-serif;font-size:.87rem;color:var(--soft);cursor:pointer}
+.btn-cancel:hover{border-color:var(--muted)}
+.btn-save{background:var(--ink);border:none;border-radius:8px;padding:.48rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:.87rem;color:white;cursor:pointer}
+.btn-save:hover{opacity:.85}
+@media(max-width:600px){header{padding:2rem 1.25rem}.controls,.grid{padding:0 1.25rem}.grid{grid-template-columns:1fr}.fg-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div>
+      <div class="login-logo">Vendor <em>Directory</em></div>
+      <p class="login-sub">Enter your email and the shared access code to continue.</p>
+    </div>
+    <div class="lf"><label>Your email</label><input id="li-email" type="email" placeholder="you@company.com" autocomplete="email"></div>
+    <div class="lf"><label>Access code</label><input id="li-code" type="password" placeholder="••••••" onkeydown="if(event.key==='Enter')tryLogin()"></div>
+    <button class="btn-login" onclick="tryLogin()">Enter directory →</button>
+    <div class="login-err" id="li-err"></div>
+    <div class="login-footer">Don't have access? Contact your group admin.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="hi">
+      <div class="h-top">
+        <div>
+          <h1>Vendor <em>Directory</em></h1>
+          <p>Recommendations from the Operations &amp; HR WhatsApp group.</p>
+        </div>
+        <div class="h-right">
+          <span class="h-pill" id="user-pill">👤</span>
+          <button class="btn-signout" onclick="signOut()">Sign out</button>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span class="mp">📅 Jan – May 2026</span>
+        <span class="mp" id="tc">— vendors</span>
+        <span class="mp">🇺🇸 NYC · FL · NJ &nbsp;🇮🇱 IL</span>
+        <button class="btn-add-h" onclick="openAdd()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add vendor
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="sw">
+      <span class="si">🔍</span>
+      <input type="text" id="search" placeholder="Search vendors, categories, names…" oninput="doFilter()">
+    </div>
+    <div class="fr">
+      <button class="fb active" onclick="setF('all',this)">All</button>
+      <button class="fb" onclick="setF('transportation',this)">🚗 Transportation</button>
+      <button class="fb" onclick="setF('it',this)">💻 IT</button>
+      <button class="fb" onclick="setF('printing',this)">🖨️ Printing</button>
+      <button class="fb" onclick="setF('swag',this)">🎁 Swag &amp; Gifts</button>
+      <button class="fb" onclick="setF('legal',this)">⚖️ Legal</button>
+      <button class="fb" onclick="setF('eventplanner',this)">📋 Event Planners</button>
+      <button class="fb" onclick="setF('venue',this)">🏛️ Venues</button>
+      <button class="fb" onclick="setF('teambuilding',this)">🤝 Team Building</button>
+      <button class="fb" onclick="setF('speaker',this)">🎤 Speakers</button>
+      <button class="fb" onclick="setF('entertainment',this)">🎭 Entertainment</button>
+      <button class="fb" onclick="setF('fitness',this)">🧘 Fitness</button>
+      <button class="fb" onclick="setF('catering',this)">🍽️ Catering</button>
+      <button class="fb" onclick="setF('design',this)">🎨 Design</button>
+      <button class="fb" onclick="setF('recruiting',this)">🔎 Recruiting</button>
+      <button class="fb" onclick="setF('other',this)">More</button>
+    </div>
+    <div class="cnt" id="sc"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeBg(event)">
+  <div class="modal">
+    <h2 id="mtitle">Add <em>Vendor</em></h2>
+    <div style="display:flex;flex-direction:column;gap:.8rem">
+      <div class="fg-row">
+        <div class="fg"><label>Business name *</label><input id="f-biz" type="text" placeholder="e.g. Tasha NYC Events"></div>
+        <div class="fg"><label>Category *</label>
+          <select id="f-cat">
+            <option value="transportation">🚗 Transportation</option>
+            <option value="it">💻 IT</option>
+            <option value="printing">🖨️ Printing</option>
+            <option value="swag">🎁 Swag & Gifts</option>
+            <option value="legal">⚖️ Legal</option>
+            <option value="eventplanner">📋 Event Planner</option>
+            <option value="venue">🏛️ Venue</option>
+            <option value="teambuilding">🤝 Team Building</option>
+            <option value="speaker">🎤 Speaker</option>
+            <option value="entertainment">🎭 Entertainment</option>
+            <option value="fitness">🧘 Fitness</option>
+            <option value="catering">🍽️ Catering</option>
+            <option value="design">🎨 Design</option>
+            <option value="recruiting">🔎 Recruiting</option>
+            <option value="other">More</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>Contact name</label><input id="f-contact" type="text" placeholder="e.g. Netta Abramson"></div>
+        <div class="fg"><label>Badge label</label><input id="f-label" type="text" placeholder="e.g. Event Planner"></div>
+      </div>
+      <div class="fg"><label>Description</label><textarea id="f-desc" placeholder="What do they do? Any highlights…"></textarea></div>
+      <div class="fg-row">
+        <div class="fg"><label>Phone</label><input id="f-phone" type="text" placeholder="+1 (212) 555-0000"></div>
+        <div class="fg"><label>Email</label><input id="f-email" type="email" placeholder="name@vendor.com"></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>Website</label><input id="f-web" type="text" placeholder="example.com"></div>
+        <div class="fg"><label>Instagram</label><input id="f-ig" type="text" placeholder="@handle"></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>Service area</label><input id="f-area" type="text" placeholder="NYC, US, Israel…"></div>
+        <div class="fg"><label>Recommended by</label><input id="f-by" type="text" placeholder="Your first name"></div>
+      </div>
+      <div class="fg"><label>Tags (comma-separated)</label><input id="f-tags" type="text" placeholder="Catering, Office Events, Custom"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveVendor()">Save vendor</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_SETTINGS='dir-settings-v1';
+const STORAGE_VENDORS='vendors-v1';
+const DEFAULT_CODE='ops2026';
+const ADMIN_EMAIL='admin@ops.com';
+const ADMIN_CODE='admin2026';
+
+let currentUser=null,vendors=[],currentFilter='all',currentSearch='',editingId=null;
+
+const SEED=[
+{id:'s1',biz:'Carmel Transportation',contact:'',cat:'transportation',label:'Transportation',desc:'Car service for airport runs and business travel.',phone:'+1 (212) 666-6666',website:'carmellimo.com',area:'NYC',tags:['Airport','Car Service'],by:'Group',plusOnes:0},
+{id:'s2',biz:'Michael — Field Driver NY',contact:'Michael',cat:'transportation',label:'Transportation',desc:'Personal driver for airport and field errands.',area:'New York',tags:['Driver','Airport'],by:'Group',plusOnes:0},
+{id:'s3',biz:'Eran — Airport Driver',contact:'Eran',cat:'transportation',label:'Transportation',desc:'Driver with a large vehicle for group airport transfers.',area:'NYC',tags:['Airport','Group Transfer'],by:'Ayelet',plusOnes:0},
+{id:'s4',biz:'רמי לוי הסעות',contact:'רמי לוי',cat:'transportation',label:'Transportation',desc:'Company trip transportation.',area:'Israel',tags:['Company Trip'],by:'Yuval',plusOnes:0},
+{id:'s5',biz:'Ekotech IT',contact:'Yaniv',cat:'it',label:'IT Services',desc:'On-demand IT services. No retainer needed — available per request.',phone:'Via VCF',area:'NYC',tags:['On-demand','No Contract'],by:'Adar, Sophie, Shahar',plusOnes:0},
+{id:'s6',biz:'Panaya IT',contact:'Yaniv Confino',cat:'it',label:'IT Services',desc:'IT specialist for tech support needs.',area:'NYC / Remote',tags:['IT Support'],by:'Group',plusOnes:0},
+{id:'s7',biz:'Federico Printing',contact:'Federico',cat:'printing',label:'Printing',desc:'NYC printing for business cards and branded materials.',phone:'+1 (212) 947-7733',area:'NYC',tags:['Business Cards','Branded'],by:'Group',plusOnes:0},
+{id:'s8',biz:'Alon Printing',contact:'Alon',cat:'printing',label:'Printing',desc:'Florida-based printing — great for roll-ups shipped south.',area:'Florida',tags:['Roll-up Banners'],by:'Karen',plusOnes:0},
+{id:'s9',biz:'Vistaprint',contact:'',cat:'printing',label:'Printing',website:'vistaprint.com',area:'Nationwide US',tags:['Online','Roll-ups'],by:'Sophie',plusOnes:0},
+{id:'s10',biz:'Bargain Printing',contact:'Phil K',cat:'printing',label:'Printing',desc:'Branded notebooks and custom print jobs.',email:'philk@bargainprinting.com',area:'US',tags:['Branded Notebooks'],by:'Sophie',plusOnes:0},
+{id:'s11',biz:'Blue Wave Printing',contact:'',cat:'printing',label:'Printing',desc:'Press wall and large-format printing.',website:'bluewaveprinting.com',area:'NYC',tags:['Large Format','Press Wall'],by:'Karen',plusOnes:0},
+{id:'s12',biz:'Embroidme Batchi',contact:'Eran',cat:'printing',label:'Embroidery / Engraving',desc:'Engraving and embroidery for branded items.',area:'NYC',tags:['Engraving','Embroidery'],by:'Group',plusOnes:0},
+{id:'s13',biz:'KNAM Media',contact:'',cat:'printing',label:'Printing / Media',website:'knammedia.com',email:'service@knammedia.com',area:'US',tags:['Media','Print'],by:'Group',plusOnes:0},
+{id:'s14',biz:'U Can Link It',contact:'Orit',cat:'swag',label:'Swag & Gifts',desc:'Branded merchandise and cocktail kits. Full online shop, works on tight timelines.',website:'ucanlinkit.com/shop',instagram:'instagram.com/ucanlinkit',email:'ucanlinkit@gmail.com',area:'US (LA)',tags:['Branded Swag','Cocktail Kits'],by:'Adva, Dana',plusOnes:0},
+{id:'s15',biz:'Lyn Lovely Swags',contact:'Lynn',cat:'swag',label:'Swag & Gifts',desc:'Swag and gifts supplier, Israel–US.',phone:'+1 (516) 859-3870',area:'NYC / Israel',tags:['Branded Swag','Gifts'],by:'Dana, Rona',plusOnes:0},
+{id:'s16',biz:'Meli',contact:'Meli',cat:'swag',label:'Swag & Gifts',phone:'+1 (201) 665-0699',area:'NJ / NYC',tags:['Gifts','Swag'],by:'Rona',plusOnes:0},
+{id:'s17',biz:'Niu Gifts',contact:'Lean Biton',cat:'swag',label:'Swag & Gifts',area:'NYC',tags:['Corporate Gifts'],by:'Group',plusOnes:0},
+{id:'s18',biz:"M&M's Custom",contact:'',cat:'swag',label:'Swag & Gifts',desc:"Custom branded M&M boxes with company logo. Gluten-free available.",website:'mms.com',area:'Nationwide US',tags:["Valentine's",'Branded Chocolate'],by:'Sophie',plusOnes:0},
+{id:'s19',biz:'Baked by Melissa',contact:'',cat:'swag',label:'Swag & Gifts',desc:'Nationwide cupcake and gift delivery.',website:'bakedbymelissa.com',area:'Nationwide US',tags:['Cupcakes','Nationwide'],by:'Gilat',plusOnes:0},
+{id:'s20',biz:'Swag.com',contact:'',cat:'swag',label:'Swag & Gifts',website:'swag.com',area:'US',tags:['Branded Notebooks','Online'],by:'Group',plusOnes:0},
+{id:'s21',biz:'Mojo Gift',contact:'',cat:'swag',label:'Swag & Gifts',website:'mojo-gift.com',area:'US',tags:['Corporate Gifts'],by:'Group',plusOnes:0},
+{id:'s22',biz:'HRBricks.il',contact:'Hadas',cat:'swag',label:'Swag & Gifts',desc:'Custom LEGO-style figures for anniversary gifts.',email:'hrbricks.il@gmail.com',area:'Israel (ships)',tags:['LEGO','Anniversary'],by:'Gilat',plusOnes:0},
+{id:'s23',biz:'Tmuna NYC',contact:'',cat:'swag',label:'Swag & Gifts',instagram:'instagram.com/tmunanyc',area:'NYC',tags:['Photography','Gifts'],by:'Group',plusOnes:0},
+{id:'s24',biz:'Greenspoon Marder',contact:'Roy Masuri',cat:'legal',label:'Legal (Immigration)',desc:'Immigration attorney for US visa processes for Israeli executives.',area:'US',tags:['Immigration','Visa'],by:'Ayelet, Mor',plusOnes:0},
+{id:'s25',biz:'Shanni Immigration Law',contact:'Shanni',cat:'legal',label:'Legal (Immigration)',desc:'Two successful visa processes. Highly recommended.',area:'US',tags:['Immigration','Visa'],by:'Eden',plusOnes:0},
+{id:'s26',biz:'Yarden Law',contact:'',cat:'legal',label:'Legal (Immigration)',website:'yardenlaw.com',area:'US',tags:['Immigration','Visa'],by:'Mor',plusOnes:0},
+{id:'s27',biz:'SSKY Law',contact:'Jerry',cat:'legal',label:'Legal (General)',area:'US',tags:['Contracts','US Law'],by:'Group',plusOnes:0},
+{id:'s28',biz:'Rosen Law Group',contact:'Melissa',cat:'legal',label:'Legal (General)',email:'Melissa@rosenlawgroup.com',area:'US',tags:['US Law','Contracts'],by:'Adar',plusOnes:0},
+{id:'s29',biz:'Tasha NYC',contact:'Netta Abramson',cat:'eventplanner',label:'Event Planner',desc:'Event planner and organizer in NYC. Produces events across the US.',website:'tasha.nyc',area:'NYC',tags:['Corporate Events','Offsite'],by:'Shlomit',plusOnes:0},
+{id:'s30',biz:'Moran Events',contact:'Moran',cat:'eventplanner',label:'Event Planner',desc:"Corporate events and office activities — 'vendor of life.'",area:'NYC',tags:['Corporate Events','Office Activities'],by:'Niro',plusOnes:0},
+{id:'s31',biz:'אדוה הפקת אירועים',contact:'Adva',cat:'eventplanner',label:'Event Production',desc:'Event production for larger-scale corporate events.',area:'NYC / Israel',tags:['Event Production','Offsite'],by:'Stav',plusOnes:0},
+{id:'s32',biz:'Lovely Events NYC',contact:'',cat:'eventplanner',label:'Event Planner',desc:'Events company — highly recommended in the group.',instagram:'instagram.com/lovelyeventsnyc',area:'NYC',tags:['Corporate Events','Office'],by:'Sophie',plusOnes:0},
+{id:'s33',biz:'Chef Liron Egozi',contact:'Liron Egozi',cat:'eventplanner',label:'Event Planner / Catering',desc:"Full event production: table design, food, happy hours. 'The table looked incredible.'",phone:'+1 (917) 291-6200',instagram:'instagram.com/lironeg',area:'NYC',tags:['Table Design','Happy Hour','Catering'],by:'Adar, Naty',plusOnes:0},
+{id:'s34',biz:'Carmel Productions NYC',contact:'Roee',cat:'eventplanner',label:'Event Production',website:'carmelproductionsnyc.com',email:'roee@carmelproductionsnyc.com',area:'NYC',tags:['Event Production'],by:'Group',plusOnes:0},
+{id:'s35',biz:'Glass Ceiling Rooftop',contact:'',cat:'venue',label:'Venue',desc:'Rooftop event venue — great food, open bar, affordable.',website:'glassceilingrooftop.com',area:'NYC',tags:['Rooftop','Open Bar','40–70 pax'],by:'Eden',plusOnes:0},
+{id:'s36',biz:'Dear Irving on Hudson',contact:'',cat:'venue',label:'Venue / Bar',desc:'Upscale cocktail bar, great for smaller corporate gatherings.',area:'NYC (Hudson Yards)',tags:['Bar','Cocktails','Small Events'],by:'Liatpd',plusOnes:0},
+{id:'s37',biz:'HaSalon NYC',contact:'',cat:'venue',label:'Venue / Restaurant',desc:'High-energy Israeli restaurant with great food and music.',area:'NYC / Miami',tags:['Restaurant','Music','Events'],by:'Group',plusOnes:0},
+{id:'s38',biz:'NY Dinner Theater',contact:'',cat:'venue',label:'Venue / Experience',website:'newyorkdinnertheater.com',area:'NYC',tags:['Dinner Theater','Experience'],by:'Group',plusOnes:0},
+{id:'s39',biz:'Sexy Fish Miami',contact:'',cat:'venue',label:'Venue / Restaurant',desc:'Upscale restaurant in Miami for corporate dinners.',area:'Miami',tags:['Restaurant','Miami','Upscale'],by:'Group',plusOnes:0},
+{id:'s40',biz:'HaSalon Miami',contact:'',cat:'venue',label:'Venue / Restaurant',area:'Miami',tags:['Restaurant','Israeli','Miami'],by:'Group',plusOnes:0},
+{id:'s41',biz:'Motek Miami',contact:'',cat:'venue',label:'Venue / Restaurant',desc:"Israeli restaurant in Miami — 'excellent.'",area:'Miami',tags:['Restaurant','Israeli','Miami'],by:'Group',plusOnes:0},
+{id:'s42',biz:'RH Restaurant NYC',contact:'',cat:'venue',label:'Venue / Restaurant',desc:'Upscale restaurant with stunning design.',website:'rh.com/us/en/newyork/restaurant',area:'NYC',tags:['Upscale','Restaurant'],by:'Dana',plusOnes:0},
+{id:'s43',biz:'Manhatta',contact:'',cat:'venue',label:'Venue / Bar',desc:'High-floor bar near World Trade Center.',area:'NYC (Financial District)',tags:['Bar','Views'],by:'Netta',plusOnes:0},
+{id:'s44',biz:'Liberty House',contact:'',cat:'venue',label:'Venue / Outdoor',website:'zogculture.com',area:'NYC / NJ',tags:['Field Day','Outdoor'],by:'Group',plusOnes:0},
+{id:'s45',biz:'TeamBonding',contact:'',cat:'teambuilding',label:'Team Building',desc:'Custom team building activities — in-person and virtual.',website:'teambonding.com',area:'US',tags:['In-Person','Virtual','Custom'],by:'Gilat',plusOnes:0},
+{id:'s46',biz:'The Go Game',contact:'',cat:'teambuilding',label:'Team Building',desc:'Team building and culture experiences.',area:'NYC',tags:['City Games','Culture'],by:'Group',plusOnes:0},
+{id:'s47',biz:'With Confetti',contact:'',cat:'teambuilding',label:'Team Building',website:'withconfetti.com',area:'US',tags:['Activities','Workshops'],by:'Group',plusOnes:0},
+{id:'s48',biz:'Visit.org',contact:'',cat:'teambuilding',label:'Volunteering / Team Building',desc:'Volunteering events with non-profit organizations.',website:'visit.org',email:'impact@visit.org',area:'NYC',tags:['Volunteering','Non-Profit'],by:'Lotem',plusOnes:0},
+{id:'s49',biz:'Virtual Escape Room',contact:'',cat:'teambuilding',label:'Team Building (Virtual)',desc:"Virtual escape room — 'really fun and competitive.' Great for remote teams.",area:'Virtual',tags:['Virtual','Escape Room','Remote'],by:'Omer',plusOnes:0},
+{id:'s50',biz:'Drag Bingo',contact:'',cat:'teambuilding',label:'Entertainment / Team Activity',desc:"Drag bingo at the office — 'great fun.' Great for Pride Month.",area:'NYC',tags:['Pride','Fun','Office'],by:'Omer',plusOnes:0},
+{id:'s51',biz:"Joe's Coffee",contact:'',cat:'teambuilding',label:'Workshop',desc:"Coffee tasting & cupping at your office. 'High-level, great for a morning event.'",area:'NYC',tags:['Coffee Tasting','Workshop','Morning'],by:'Shlomit',plusOnes:0},
+{id:'s52',biz:'Anin Wine',contact:'Aniv',cat:'teambuilding',label:'Wine Experience',desc:'Wine tasting experiences and events. Branded bottles.',website:'anin.wine',instagram:'instagram.com/anin.wine.experience',email:'aniv@anin.wine',area:'NYC',tags:['Wine Tasting','Branded Bottles'],by:'Karen',plusOnes:0},
+{id:'s53',biz:'Benmarl Winery',contact:'',cat:'teambuilding',label:'Offsite / Winery',desc:"Winery upstate — 'perfect, beauty is outside.'",area:'Upstate NY',tags:['Winery','Offsite','Upstate'],by:'Group',plusOnes:0},
+{id:'s54',biz:'ClassBento',contact:'',cat:'teambuilding',label:'Cooking Class',website:'classbento.com',area:'NYC',tags:['Cooking Class','Workshop'],by:'Gilat',plusOnes:0},
+{id:'s55',biz:'Roll With It',contact:'',cat:'teambuilding',label:'Team Building',desc:"Team building — 'absolutely perfect, bonding and engaging.'",area:'NYC',tags:['Bonding','Activity'],by:'Gilat',plusOnes:0},
+{id:'s56',biz:'Zog Culture',contact:'',cat:'teambuilding',label:'Outdoor Team Building',website:'zogculture.com',area:'NYC',tags:['Outdoor','Field Day','Sports'],by:'Group',plusOnes:0},
+{id:'s57',biz:'Naama Zaltzman',contact:'Naama Zaltzman',cat:'speaker',label:'Speaker / Consultant',desc:'Organizational consultant — cross-cultural sessions for Israeli–American teams. Leadership development.',area:'US / Israel',tags:['Cross-Culture','Leadership','Israeli-American'],by:'Neta, Adi, Mor',plusOnes:0},
+{id:'s58',biz:'Aylon Slater',contact:'Aylon Slater',cat:'speaker',label:'Speaker / Workshop',desc:'Speaker and workshop facilitator.',area:'US',tags:['Workshop','Speaker'],by:'Adi',plusOnes:0},
+{id:'s59',biz:'Adva Dayan',contact:'Osnat Fried Laznik',cat:'speaker',label:'Speaker',desc:"Lectures and workshops — 'deep and practical.'",website:'advadayan.com',area:'US / Israel',tags:['Speaker','Organizational'],by:'Group',plusOnes:0},
+{id:'s60',biz:'Financial Wellness Workshop',contact:'',cat:'speaker',label:'Speaker / Workshop',desc:'Financial wellness: investments, debt, savings — adapted by employee age. Optional 1:1 advisory.',area:'NYC',tags:['Financial Wellness','Benefits'],by:'Mor',plusOnes:0},
+{id:'s61',biz:'Daniel Harel — Mentalist',contact:'Daniel Harel',cat:'entertainment',label:'Entertainment',desc:"Mentalist — 'I did a mentalist and it was excellent.'",area:'NYC',tags:['Mentalist','Office Event'],by:'Sophie',plusOnes:0},
+{id:'s62',biz:'Itay Pinky',contact:'Itay',cat:'entertainment',label:'Entertainment',area:'NYC',tags:['Entertainment'],by:'Group',plusOnes:0},
+{id:'s63',biz:'Saar 12',contact:'Saar',cat:'entertainment',label:'Entertainment',area:'NYC',tags:['Entertainment'],by:'Avya',plusOnes:0},
+{id:'s64',biz:'Erez Tal',contact:'Erez Tal',cat:'entertainment',label:'Entertainment / Photography',desc:"Photographer and entertainer. 'The result was amazing!' Also prints photos on wood blocks.",area:'NYC',tags:['Photography','Wood Print'],by:'Adar, Shlomit',plusOnes:0},
+{id:'s65',biz:'Ahhh Massage',contact:'',cat:'entertainment',label:'Wellness',desc:"Chair massage for offices. 'Using for several years, very satisfied.'",website:'ahhhmassage.com',area:'NYC',tags:['Chair Massage','Office Wellness'],by:'Lital',plusOnes:0},
+{id:'s66',biz:'Chen Pilates NY',contact:'Chen',cat:'fitness',label:'Fitness (Pilates)',desc:"'A perfect instructor.'",area:'NYC',tags:['Pilates','Office Classes'],by:'May',plusOnes:0},
+{id:'s67',biz:'Shira Pilates',contact:'Shira',cat:'fitness',label:'Fitness (Pilates)',desc:'Pilates instructor running classes and workshops at companies and offsites.',area:'NYC',tags:['Pilates','Workshops','Offsites'],by:'Lotem',plusOnes:0},
+{id:'s68',biz:'Michal Raz Yoga',contact:'Michal Raz',cat:'fitness',label:'Fitness (Yoga)',desc:'Yoga instructor for office classes.',area:'NYC',tags:['Yoga','Office Classes'],by:'Tamar',plusOnes:0},
+{id:'s69',biz:'Lilach German Fitness',contact:'Lilach German',cat:'fitness',label:'Fitness',instagram:'instagram.com/lilach_german',area:'NYC',tags:['Fitness'],by:'Group',plusOnes:0},
+{id:'s70',biz:'Coffee Cart',contact:'Noy Sitbon',cat:'catering',label:'Coffee Cart',desc:'Mobile coffee cart for events and office occasions.',phone:'+972 52-453-2144',area:'Israel',tags:['Coffee Cart','Events'],by:'Stav',plusOnes:0},
+{id:'s71',biz:'Fistuk',contact:'Rami Kattan',cat:'catering',label:'Catering',area:'NYC / Israel',tags:['Catering','Food'],by:'Ronit',plusOnes:0},
+{id:'s72',biz:'Koplet Borekas',contact:'Liron',cat:'catering',label:'Catering',desc:'Israeli food and borekas catering.',area:'NYC',tags:['Israeli Food','Borekas'],by:'Naty',plusOnes:0},
+{id:'s73',biz:'Sharebite',contact:'',cat:'catering',label:'Food Platform',desc:'Corporate lunch ordering — lower commission than Uber Eats.',website:'sharebite.com',area:'NYC',tags:['Lunch Delivery','Weekly Orders'],by:'Gilat',plusOnes:0},
+{id:'s74',biz:'Mangia NYC',contact:'',cat:'catering',label:'Catering / Restaurant',website:'mangianyc.com',area:'NYC',tags:['Catering','Italian'],by:'Gilat',plusOnes:0},
+{id:'s75',biz:'Miznon NYC',contact:'',cat:'catering',label:'Catering / Restaurant',desc:'Israeli restaurant and catering in NYC.',website:'miznonusa.com',email:'Catering@miznonnyc.com',area:'NYC',tags:['Israeli','Catering'],by:'Dana',plusOnes:0},
+{id:'s76',biz:'Daphna Morell',contact:'Daphna Morell',cat:'catering',label:'Private Chef',desc:"Private chef with waiter and sous-chef. Menu built together. 'Really tasty and pleasant.'",phone:'+1 (929) 426-5633',area:'NYC',tags:['Private Chef','Custom Menu'],by:'Niro',plusOnes:0},
+{id:'s77',biz:'Memoballoons',contact:'',cat:'catering',label:'Event Decor',desc:'Custom branded balloons — fast delivery.',email:'memoballoons@gmail.com',area:'NYC',tags:['Balloons','Branded','Decor'],by:'Adar',plusOnes:0},
+{id:'s78',biz:'Oz Shoshan Interior Design',contact:'Oz Shoshan',cat:'design',label:'Interior Design',desc:'Office space branding and design.',phone:'+1 (929) 389-4282',area:'NYC',tags:['Interior Design','Office Branding'],by:'Eden',plusOnes:0},
+{id:'s79',biz:'Vazo Logo',contact:'',cat:'design',label:'Graphic Design / Branding',area:'NYC / Remote',tags:['Logo','Branding'],by:'May',plusOnes:0},
+{id:'s80',biz:'Simple Office LLC',contact:'Rotem',cat:'design',label:'Office Services',area:'NYC',tags:['Office Management'],by:'Netta',plusOnes:0},
+{id:'s81',biz:'Relocate Home',contact:'',cat:'design',label:'Relocation / Design',instagram:'instagram.com/relocate_home',area:'NYC',tags:['Relocation','Office Setup'],by:'Karen',plusOnes:0},
+{id:'s82',biz:'La Boutique Table Spreads',contact:'',cat:'design',label:'Event Decor',instagram:'instagram.com/la.boutiquetablespreads',area:'NYC',tags:['Table Spreads','Event Decor'],by:'Dana',plusOnes:0},
+{id:'s83',biz:'MSC Wood Designs',contact:'',cat:'design',label:'Custom Design',email:'mscwooddesigns@gmail.com',area:'US',tags:['Wood Design','Custom'],by:'Group',plusOnes:0},
+{id:'s84',biz:'Easy Plant',contact:'',cat:'design',label:'Plants / Office',website:'easyplant.com',area:'US',tags:['Plants','Office Greenery'],by:'Aviv',plusOnes:0},
+{id:'s85',biz:'John Mini',contact:'',cat:'design',label:'Plants / Flowers',desc:'Office plants and flowers with ongoing care (watering and maintenance).',area:'NYC',tags:['Plants','Flowers','Maintenance'],by:'Niro',plusOnes:0},
+{id:'s86',biz:'1-800-Flowers',contact:'',cat:'design',label:'Flowers',website:'1800flowers.com',area:'Nationwide US',tags:['Flowers','Nationwide'],by:'Inbar',plusOnes:0},
+{id:'s87',biz:'Hasbani Light',contact:'Daniel Hasbani',cat:'design',label:'Lighting / Design',website:'hasbanilight.com',area:'Israel / US',tags:['Lighting','Design'],by:'Gilad',plusOnes:0},
+{id:'s88',biz:'Revital Vadai Recruiting',contact:'Revital Vadai',cat:'recruiting',label:'Recruiter (US)',phone:'+1 (646) 812-1080',area:'US',tags:['Recruiting','HR'],by:'Group',plusOnes:0},
+{id:'s89',biz:'Leadx',contact:'Slav Leibin',cat:'recruiting',label:'Sales / Recruiting',phone:'+972 52-237-1123',area:'Israel / US',tags:['Sales','Leadx'],by:'Group',plusOnes:0},
+{id:'s90',biz:'Eric Aroesty Recruiting',contact:'Eric Aroesty',cat:'recruiting',label:'Recruiter',area:'US',tags:['Recruiting'],by:'Group',plusOnes:0},
+{id:'s91',biz:'The Talent Solution',contact:'Edith D',cat:'recruiting',label:'Recruiting Agency',website:'TheTalentSolution.com',email:'edithd@TheTalentSolution.com',area:'US',tags:['Recruiting','Talent'],by:'Aviv',plusOnes:0},
+{id:'s92',biz:'The Furniture X-change',contact:'Sheila',cat:'other',label:'Furniture (Used)',desc:'Second-hand office furniture including phone booths.',area:'NYC',tags:['Used Furniture','Phone Booths'],by:'Amit',plusOnes:0},
+{id:'s93',biz:'Luis Cleaning',contact:'Luis',cat:'other',label:'Cleaning Services',area:'NYC',tags:['Office Cleaning'],by:'Niro',plusOnes:0},
+{id:'s94',biz:'CBRE NYC',contact:'Jason',cat:'other',label:'Real Estate',desc:'Commercial real estate broker for office leasing.',area:'NYC',tags:['Real Estate','Office Space'],by:'Niro',plusOnes:0},
+{id:'s95',biz:'Nitzan Photography',contact:'Nitzan',cat:'other',label:'Photography',area:'NYC',tags:['Photography','Corporate'],by:'Group',plusOnes:0},
+{id:'s96',biz:'Travel Agent',contact:'Tami Herschaft',cat:'other',label:'Travel Agent',area:'US',tags:['Travel','Corporate'],by:'Rona',plusOnes:0},
+{id:'s97',biz:'Travel Agent',contact:'Shirit Lamm-Gurman',cat:'other',label:'Travel Agent',area:'US',tags:['Travel'],by:'Niro',plusOnes:0},
+{id:'s98',biz:'גיורא מלכה',contact:'גיורא מלכה',cat:'other',label:'Services',phone:'+1 (646) 270-7310',area:'NYC',tags:['Services'],by:'Group',plusOnes:0},
+{id:'s99',biz:'עומרי שומר',contact:'עומרי שומר',cat:'other',label:'Services',phone:'+972 50-211-4808',area:'Israel',tags:['Services'],by:'Group',plusOnes:0},
+{id:'s100',biz:'Gili Milo',contact:'Gili Milo',cat:'other',label:'Services',phone:'+1 (917) 940-3396',area:'NYC',tags:['Services'],by:'Group',plusOnes:0},
+{id:'s101',biz:'Delicious Cities',contact:'',cat:'other',label:'Food Tours',website:'deliciouscities.com',area:'NYC',tags:['Food Tours','Experiences'],by:'Group',plusOnes:0},
+{id:'s102',biz:'Rikicop',contact:'',cat:'other',label:'Services',website:'rikicop.com',area:'NYC',tags:['Services'],by:'Liatpd',plusOnes:0},
+{id:'s103',biz:'Moti Elkaim',contact:'Moti Elkaim',cat:'other',label:'Services',area:'US',tags:['Services'],by:'Ayelet',plusOnes:0},
+{id:'s104',biz:'Nell Romela',contact:'Nell Romela',cat:'other',label:'Services',area:'NYC',tags:['Services'],by:'Gil',plusOnes:0},
+{id:'s105',biz:'Todd Schor',contact:'Todd Schor',cat:'other',label:'Entertainment',area:'NYC',tags:['Entertainment'],by:'Gilad',plusOnes:0},
+{id:'s106',biz:'Ashley Kablu',contact:'Ashley',cat:'other',label:'Services',area:'US',tags:['Services'],by:'Group',plusOnes:0},
+{id:'s107',biz:'Ayelet Nathaniel Recruiting',contact:'Ayelet Nathaniel',cat:'recruiting',label:'Recruiter',area:'US',tags:['Recruiting','HR'],by:'Group',plusOnes:0},
+];
+
+async function getSettings(){
+  try{const r=await window.storage.get(STORAGE_SETTINGS,true);return r?JSON.parse(r.value):{code:DEFAULT_CODE,members:[]};}
+  catch{return{code:DEFAULT_CODE,members:[]};}
+}
+
+async function tryLogin(){
+  const email=(document.getElementById('li-email').value||'').trim().toLowerCase();
+  const code=(document.getElementById('li-code').value||'').trim();
+  const err=document.getElementById('li-err');
+  if(!email||!code){err.textContent='Please enter both email and code.';err.style.display='block';return;}
+  const s=await getSettings();
+  const isAdmin=(email===ADMIN_EMAIL&&code===ADMIN_CODE);
+  const memberOk=s.members.find(m=>m.toLowerCase()===email);
+  const codeOk=(code===s.code);
+  if(!isAdmin&&(!memberOk||!codeOk)){
+    err.textContent=!memberOk?'Your email is not on the access list.':'Incorrect code. Please try again.';
+    err.style.display='block';
+    document.getElementById('li-code').value='';
+    return;
+  }
+  currentUser=email;
+  sessionStorage.setItem('dir-user',email);
+  showApp();
+}
+
+function signOut(){
+  sessionStorage.removeItem('dir-user');
+  currentUser=null;
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('li-email').value='';
+  document.getElementById('li-code').value='';
+  document.getElementById('li-err').style.display='none';
+}
+
+function showApp(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  const name=currentUser.split('@')[0];
+  document.getElementById('user-pill').textContent='👤 '+name;
+  loadVendors();
+}
+
+async function loadVendors(){
+  try{
+    const r=await window.storage.get(STORAGE_VENDORS,true);
+    if(r&&r.value){
+      const stored=JSON.parse(r.value);
+      const ov={};stored.forEach(v=>{ov[v.id]=v;});
+      vendors=SEED.map(s=>ov[s.id]?{...s,...ov[s.id]}:{...s});
+      stored.forEach(v=>{if(!v.id.startsWith('s')&&!vendors.find(x=>x.id===v.id))vendors.push(v);});
+    }else{vendors=SEED.map(v=>({...v}));}
+  }catch{vendors=SEED.map(v=>({...v}));}
+  render();
+  document.getElementById('tc').textContent=vendors.length+' vendors';
+}
+
+async function saveVendors(){
+  try{await window.storage.set(STORAGE_VENDORS,JSON.stringify(vendors),true);}
+  catch(e){console.error(e);}
+}
+
+function igH(url){return url.replace(/.*instagram\.com\//,'').replace(/\?.*/,'').replace(/\/$/,'');}
+
+function cardHTML(v,i){
+  const delay=Math.min(i*.033,.6).toFixed(2);
+  const rows=[];
+  if(v.phone)rows.push(`<div class="mr"><span class="lb">Phone</span><a href="tel:${v.phone.replace(/\s/g,'')}">${v.phone}</a></div>`);
+  if(v.email)rows.push(`<div class="mr"><span class="lb">Email</span><a href="mailto:${v.email}">${v.email}</a></div>`);
+  if(v.website)rows.push(`<div class="mr"><span class="lb">Website</span><a href="https://${v.website.replace(/^https?:\/\//,'')}" target="_blank">${v.website}</a></div>`);
+  if(v.instagram)rows.push(`<div class="mr"><span class="lb">Instagram</span><a href="https://${v.instagram.replace(/^https?:\/\//,'')}" target="_blank">@${igH(v.instagram)}</a></div>`);
+  if(v.area)rows.push(`<div class="mr"><span class="lb">Area</span>${v.area}</div>`);
+  const tags=(v.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('');
+  const pl=v.plusOnes>0?`<span class="pc">+${v.plusOnes}</span>`:'';
+  const isNew=!v.id.startsWith('s')?' is-new':'';
+  const bizName=v.biz||v.name||'';
+  const contactLine=v.contact?`<div class="contact-name">${v.contact}</div>`:'';
+  return `<div class="card${isNew}" style="animation-delay:${delay}s">
+    <div class="card-top">
+      <div class="card-names">
+        <div class="biz-name">${bizName}</div>
+        ${contactLine}
+      </div>
+      <span class="bdg cat-${v.cat}">${v.label}</span>
+    </div>
+    ${v.desc?`<div class="desc">${v.desc}</div>`:''}
+    ${rows.length?`<div class="meta">${rows.join('')}</div>`:''}
+    <div class="footer">
+      <div class="tags">${tags}</div>
+      ${v.by?`<div class="rec-by">⭐ <span>${v.by}</span></div>`:''}
+    </div>
+    <div class="card-actions">
+      <button class="btn-sm btn-plus" onclick="plusOne('${v.id}')">👍 +1${pl}</button>
+      <button class="btn-sm" onclick="openEdit('${v.id}')">✏️ Edit</button>
+    </div>
+  </div>`;
+}
+
+function render(){
+  const q=currentSearch.toLowerCase();
+  const fil=vendors.filter(v=>{
+    const mc=currentFilter==='all'||v.cat===currentFilter;
+    const s=[v.biz||v.name||'',v.contact||'',v.label,v.desc||'',v.area||'',v.by||'',...(v.tags||[])].join(' ').toLowerCase();
+    return mc&&(!q||s.includes(q));
+  });
+  document.getElementById('sc').textContent=`${fil.length} of ${vendors.length}`;
+  document.getElementById('grid').innerHTML=fil.length
+    ?fil.map((v,i)=>cardHTML(v,i)).join('')+`<button class="add-card-btn" onclick="openAdd()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Add a vendor</button>`
+    :'<div class="empty">No vendors match your search.</div>';
+}
+
+function setF(cat,btn){currentFilter=cat;document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
+function doFilter(){currentSearch=document.getElementById('search').value;render();}
+
+async function plusOne(id){
+  const v=vendors.find(x=>x.id===id);if(!v)return;
+  v.plusOnes=(v.plusOnes||0)+1;
+  await saveVendors();render();
+}
+
+function clearForm(){
+  ['f-biz','f-contact','f-label','f-desc','f-phone','f-email','f-web','f-ig','f-area','f-by','f-tags'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('f-cat').value='eventplanner';
+}
+
+function openAdd(){editingId=null;document.getElementById('mtitle').innerHTML='Add <em>Vendor</em>';clearForm();document.getElementById('overlay').classList.add('open');}
+function openEdit(id){
+  const v=vendors.find(x=>x.id===id);if(!v)return;
+  editingId=id;
+  document.getElementById('mtitle').innerHTML='Edit <em>Vendor</em>';
+  document.getElementById('f-biz').value=v.biz||v.name||'';
+  document.getElementById('f-contact').value=v.contact||'';
+  document.getElementById('f-cat').value=v.cat||'other';
+  document.getElementById('f-label').value=v.label||'';
+  document.getElementById('f-desc').value=v.desc||'';
+  document.getElementById('f-phone').value=v.phone||'';
+  document.getElementById('f-email').value=v.email||'';
+  document.getElementById('f-web').value=v.website||'';
+  document.getElementById('f-ig').value=v.instagram||'';
+  document.getElementById('f-area').value=v.area||'';
+  document.getElementById('f-by').value=v.by||'';
+  document.getElementById('f-tags').value=(v.tags||[]).join(', ');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('open');editingId=null;}
+function closeBg(e){if(e.target===document.getElementById('overlay'))closeModal();}
+
+async function saveVendor(){
+  const biz=document.getElementById('f-biz').value.trim();if(!biz){document.getElementById('f-biz').focus();return;}
+  const cat=document.getElementById('f-cat').value;
+  const def={transportation:'Transportation',it:'IT Services',printing:'Printing',swag:'Swag & Gifts',legal:'Legal',eventplanner:'Event Planner',venue:'Venue',teambuilding:'Team Building',speaker:'Speaker',entertainment:'Entertainment',fitness:'Fitness',catering:'Catering',design:'Design',recruiting:'Recruiting',other:'Services'};
+  const igRaw=document.getElementById('f-ig').value.trim().replace(/^@/,'');
+  const raw={biz,contact:document.getElementById('f-contact').value.trim(),cat,label:document.getElementById('f-label').value.trim()||def[cat],desc:document.getElementById('f-desc').value.trim(),phone:document.getElementById('f-phone').value.trim(),email:document.getElementById('f-email').value.trim(),website:document.getElementById('f-web').value.trim().replace(/^https?:\/\//,''),instagram:igRaw?(igRaw.includes('/')?igRaw:'instagram.com/'+igRaw):'',area:document.getElementById('f-area').value.trim(),by:document.getElementById('f-by').value.trim()||currentUser.split('@')[0],tags:document.getElementById('f-tags').value.split(',').map(t=>t.trim()).filter(Boolean)};
+  Object.keys(raw).forEach(k=>{if(raw[k]===''||(Array.isArray(raw[k])&&!raw[k].length))delete raw[k];});
+  if(editingId){const idx=vendors.findIndex(x=>x.id===editingId);if(idx>-1)vendors[idx]={...vendors[idx],...raw};}
+  else{raw.id='u'+Date.now();raw.plusOnes=0;vendors.push(raw);document.getElementById('tc').textContent=vendors.length+' vendors';}
+  await saveVendors();closeModal();render();
+}
+
+(async()=>{
+  const saved=sessionStorage.getItem('dir-user');
+  if(saved){
+    const s=await getSettings();
+    if(saved===ADMIN_EMAIL||s.members.find(m=>m.toLowerCase()===saved.toLowerCase())){
+      currentUser=saved;showApp();return;
+    }
+  }
+  document.getElementById('li-email').focus();
+})();
+</script>
+</body>
+</html>
