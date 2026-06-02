@@ -10,80 +10,60 @@
 :root{--ink:#1a1a1a;--soft:#555;--muted:#999;--paper:#faf8f4;--warm:#f2ede3;--accent:#c9622a;--border:#e0d8cc;--red:#dc2626;--green:#16a34a;}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
-
-/* LOGIN */
-#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
-.login-box{background:white;border:1.5px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:380px;display:flex;flex-direction:column;gap:1.4rem}
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--ink)}
+.login-box{background:white;border-radius:20px;padding:2.5rem;width:100%;max-width:380px;display:flex;flex-direction:column;gap:1.4rem}
 .logo{font-family:'DM Serif Display',serif;font-size:1.4rem}.logo em{color:var(--accent);font-style:italic}
 .logo-sub{font-size:.82rem;color:var(--muted);margin-top:-.6rem}
 .lf{display:flex;flex-direction:column;gap:.3rem}
 .lf label{font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.lf input{border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s}
+.lf input{border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s;width:100%}
 .lf input:focus{border-color:var(--accent)}
-.btn-login{background:var(--ink);color:white;border:none;border-radius:8px;padding:.7rem;font-family:'DM Sans',sans-serif;font-size:.9rem;cursor:pointer}
+.btn-login{background:var(--ink);color:white;border:none;border-radius:8px;padding:.7rem;font-family:'DM Sans',sans-serif;font-size:.9rem;cursor:pointer;width:100%}
 .btn-login:hover{opacity:.85}
 .err{color:var(--red);font-size:.8rem;display:none;text-align:center}
-
-/* APP */
 #app{display:none}
 .topbar{background:var(--ink);color:white;padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between}
 .topbar-left{font-family:'DM Serif Display',serif;font-size:1.2rem}.topbar-left em{color:var(--accent);font-style:italic}
 .topbar-sub{font-size:.75rem;color:rgba(255,255,255,.5);margin-top:.1rem}
 .btn-out{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);padding:.3rem .8rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer}
 .btn-out:hover{background:rgba(255,255,255,.2)}
-
 .page{max-width:820px;margin:2.5rem auto;padding:0 2rem;display:flex;flex-direction:column;gap:2rem}
-
-/* SECTION CARD */
 .section{background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden}
 .section-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .section-title{font-size:1rem;font-weight:500;color:var(--ink)}
 .section-title span{font-size:.78rem;font-weight:400;color:var(--muted);margin-left:.5rem}
 .section-body{padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:.85rem}
-
-/* STATS ROW */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 .stat{background:var(--warm);border-radius:10px;padding:.9rem 1rem;display:flex;flex-direction:column;gap:.2rem}
 .stat-n{font-size:1.6rem;font-weight:500;color:var(--ink);line-height:1}
 .stat-l{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-
-/* CODE SECTION */
 .code-row{display:flex;gap:.75rem;align-items:center}
 .code-display{flex:1;background:var(--warm);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .9rem;font-family:monospace;font-size:1rem;color:var(--ink);letter-spacing:.1em}
 .code-input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:.6rem .9rem;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s}
 .code-input:focus{border-color:var(--accent)}
-.btn-change{background:var(--accent);color:white;border:none;border-radius:8px;padding:.6rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;white-space:nowrap}
-.btn-change:hover{opacity:.85}
-.btn-edit-code{background:white;border:1.5px solid var(--border);border-radius:8px;padding:.6rem 1rem;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;color:var(--soft)}
-.btn-edit-code:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary{background:var(--accent);color:white;border:none;border-radius:8px;padding:.6rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;white-space:nowrap}
+.btn-primary:hover{opacity:.85}
+.btn-secondary{background:white;border:1.5px solid var(--border);border-radius:8px;padding:.6rem 1rem;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;color:var(--soft)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
 .code-saved{font-size:.8rem;color:var(--green);display:none}
-
-/* MEMBER LIST */
 .member-list{display:flex;flex-direction:column;gap:.5rem}
 .member-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem .85rem;background:var(--warm);border-radius:8px;gap:1rem}
 .member-email{font-size:.88rem;color:var(--ink);flex:1}
 .member-date{font-size:.72rem;color:var(--muted)}
 .btn-remove{background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;padding:.2rem .5rem;border-radius:5px;transition:all .15s}
 .btn-remove:hover{background:#fee2e2;color:var(--red)}
-.add-member-row{display:flex;gap:.65rem}
-.add-member-row input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--ink);outline:none;transition:border-color .2s}
-.add-member-row input:focus{border-color:var(--accent)}
-.btn-add-member{background:var(--ink);color:white;border:none;border-radius:8px;padding:.6rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;white-space:nowrap}
-.btn-add-member:hover{opacity:.85}
-.member-err{font-size:.8rem;color:var(--red);display:none}
-.empty-members{font-size:.88rem;color:var(--muted);font-style:italic;text-align:center;padding:.75rem}
-
-/* BULK IMPORT */
+.add-row{display:flex;gap:.65rem}
+.add-row input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:.6rem .85rem;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--ink);outline:none;transition:border-color .2s}
+.add-row input:focus{border-color:var(--accent)}
+.field-err{font-size:.8rem;color:var(--red);display:none}
+.empty-list{font-size:.88rem;color:var(--muted);font-style:italic;text-align:center;padding:.75rem}
 .bulk-area{border:1.5px solid var(--border);border-radius:8px;padding:.65rem .85rem;font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--ink);outline:none;width:100%;min-height:80px;resize:vertical;transition:border-color .2s;line-height:1.6}
 .bulk-area:focus{border-color:var(--accent)}
-.bulk-note{font-size:.75rem;color:var(--muted)}
-
-/* DANGER ZONE */
+.note{font-size:.75rem;color:var(--muted)}
 .danger-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .danger-desc{font-size:.85rem;color:var(--soft);flex:1}
 .btn-danger{background:none;border:1.5px solid #fca5a5;color:var(--red);border-radius:8px;padding:.55rem 1rem;font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer}
 .btn-danger:hover{background:#fee2e2}
-
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--ink);color:white;padding:.6rem 1.2rem;border-radius:8px;font-size:.85rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
 .toast.show{opacity:1}
 @media(max-width:600px){.page{padding:0 1rem}.stats{grid-template-columns:1fr 1fr}}
@@ -94,7 +74,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);m
 <div id="login-screen">
   <div class="login-box">
     <div><div class="logo">Directory <em>Backoffice</em></div><div class="logo-sub">Admin access only</div></div>
-    <div class="lf"><label>Admin email</label><input id="li-email" type="email" placeholder="admin@ops.com" autocomplete="email"></div>
+    <div class="lf"><label>Admin email</label><input id="li-email" type="email" placeholder="admin@ops.com"></div>
     <div class="lf"><label>Admin password</label><input id="li-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')tryLogin()"></div>
     <button class="btn-login" onclick="tryLogin()">Sign in →</button>
     <div class="err" id="li-err">Incorrect credentials.</div>
@@ -111,105 +91,92 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);m
   </div>
 
   <div class="page">
-
-    <!-- STATS -->
     <div class="section">
       <div class="section-head"><div class="section-title">Overview</div></div>
       <div class="section-body">
         <div class="stats">
           <div class="stat"><div class="stat-n" id="stat-members">—</div><div class="stat-l">Members</div></div>
-          <div class="stat"><div class="stat-n" id="stat-vendors">102</div><div class="stat-l">Vendors</div></div>
+          <div class="stat"><div class="stat-n" id="stat-vendors">107</div><div class="stat-l">Vendors</div></div>
           <div class="stat"><div class="stat-n" id="stat-plusones">—</div><div class="stat-l">Total +1s</div></div>
         </div>
       </div>
     </div>
 
-    <!-- ACCESS CODE -->
     <div class="section">
-      <div class="section-head">
-        <div class="section-title">Shared access code <span>All members use this to log in</span></div>
-      </div>
+      <div class="section-head"><div class="section-title">Shared access code <span>All members use this to log in</span></div></div>
       <div class="section-body">
         <div class="code-row" id="code-view-row">
           <div class="code-display" id="code-display">loading…</div>
-          <button class="btn-edit-code" onclick="showCodeEdit()">Change code</button>
+          <button class="btn-secondary" onclick="showCodeEdit()">Change code</button>
         </div>
         <div class="code-row" id="code-edit-row" style="display:none">
           <input class="code-input" id="code-new-input" type="text" placeholder="New access code…" maxlength="30">
-          <button class="btn-change" onclick="saveCode()">Save</button>
-          <button class="btn-edit-code" onclick="hideCodeEdit()">Cancel</button>
+          <button class="btn-primary" onclick="saveCode()">Save</button>
+          <button class="btn-secondary" onclick="hideCodeEdit()">Cancel</button>
         </div>
-        <div class="code-saved" id="code-saved-msg">✓ Code updated and saved</div>
-        <div class="bulk-note">Share this code with invited members so they can log into the directory.</div>
+        <div class="code-saved" id="code-saved-msg">✓ Code updated</div>
+        <div class="note">Share this code with invited members so they can log in.</div>
       </div>
     </div>
 
-    <!-- MEMBERS -->
     <div class="section">
-      <div class="section-head">
-        <div class="section-title">Members <span id="member-count-label"></span></div>
-      </div>
+      <div class="section-head"><div class="section-title">Members <span id="member-count-label"></span></div></div>
       <div class="section-body">
-        <div class="add-member-row">
+        <div class="add-row">
           <input id="new-member-input" type="email" placeholder="member@company.com" onkeydown="if(event.key==='Enter')addMember()">
-          <button class="btn-add-member" onclick="addMember()">+ Add member</button>
+          <button class="btn-primary" onclick="addMember()">+ Add member</button>
         </div>
-        <div class="member-err" id="member-err"></div>
+        <div class="field-err" id="member-err"></div>
         <div class="member-list" id="member-list"></div>
-
-        <!-- BULK IMPORT -->
         <div style="border-top:1px solid var(--border);padding-top:.85rem;display:flex;flex-direction:column;gap:.5rem">
           <div class="section-title" style="font-size:.85rem">Bulk import</div>
-          <textarea class="bulk-area" id="bulk-input" placeholder="Paste emails, one per line or comma-separated&#10;&#10;alice@company.com&#10;bob@company.com, carol@company.com"></textarea>
+          <textarea class="bulk-area" id="bulk-input" placeholder="Paste emails, one per line or comma-separated&#10;&#10;alice@company.com&#10;bob@company.com"></textarea>
           <div style="display:flex;gap:.6rem;align-items:center">
-            <button class="btn-change" onclick="bulkImport()">Import emails</button>
-            <div class="bulk-note" id="bulk-result"></div>
+            <button class="btn-primary" onclick="bulkImport()">Import emails</button>
+            <div class="note" id="bulk-result"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- DANGER ZONE -->
     <div class="section">
       <div class="section-head"><div class="section-title" style="color:var(--red)">Danger zone</div></div>
       <div class="section-body">
         <div class="danger-row">
-          <div class="danger-desc">Remove all members from the access list. The directory will be inaccessible until you add members back.</div>
+          <div class="danger-desc">Remove all members. The directory will be inaccessible until you add members back.</div>
           <button class="btn-danger" onclick="clearAllMembers()">Clear all members</button>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const STORAGE_SETTINGS='dir-settings-v1';
-const STORAGE_VENDORS='vendors-v1';
+const SB_URL='https://agldtegvoipsorlbaagr.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnbGR0ZWd2b2lwc29ybGJhYWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MjIxNzUsImV4cCI6MjA5NTk5ODE3NX0.yMBqLDt_N9B8UKNsdReAEDSRLmqkeGMZfr9jVQBPme4';
 const ADMIN_EMAIL='admin@ops.com';
 const ADMIN_PASS='admin2026';
 
-let settings={code:'ops2026',members:[]};
+function sbH(){return{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};}
+async function sbGet(t,q=''){const r=await fetch(`${SB_URL}/rest/v1/${t}?${q}`,{headers:sbH()});return r.ok?r.json():[];}
+async function sbPost(t,b){return fetch(`${SB_URL}/rest/v1/${t}`,{method:'POST',headers:{...sbH(),'Prefer':'return=representation'},body:JSON.stringify(b)});}
+async function sbUpsert(t,b){return fetch(`${SB_URL}/rest/v1/${t}`,{method:'POST',headers:{...sbH(),'Prefer':'resolution=merge-duplicates'},body:JSON.stringify(b)});}
+async function sbDelete(t,f){return fetch(`${SB_URL}/rest/v1/${t}?${f}`,{method:'DELETE',headers:sbH()});}
 
-function toast(msg,dur=2400){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),dur);
-}
+function toast(msg,dur=2400){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur);}
 
-async function tryLogin(){
+function tryLogin(){
   const email=(document.getElementById('li-email').value||'').trim().toLowerCase();
   const pass=(document.getElementById('li-pass').value||'').trim();
-  const err=document.getElementById('li-err');
   if(email===ADMIN_EMAIL&&pass===ADMIN_PASS){
-    err.style.display='none';
+    document.getElementById('li-err').style.display='none';
     document.getElementById('login-screen').style.display='none';
     document.getElementById('app').style.display='block';
-    await loadAll();
-  } else {
-    err.style.display='block';
+    loadAll();
+  }else{
+    document.getElementById('li-err').style.display='block';
     document.getElementById('li-pass').value='';
   }
 }
@@ -222,50 +189,36 @@ function signOut(){
 }
 
 async function loadAll(){
-  try{
-    const r=await window.storage.get(STORAGE_SETTINGS,true);
-    if(r&&r.value)settings=JSON.parse(r.value);
-    else settings={code:'ops2026',members:[]};
-  }catch{settings={code:'ops2026',members:[]};}
-  await loadStats();
-  renderSettings();
+  const [codeRows,memberRows,vendorRows]=await Promise.all([
+    sbGet('settings','key=eq.access_code&select=value'),
+    sbGet('members','select=email,created_at&order=created_at.asc'),
+    sbGet('vendor_overrides','select=data'),
+  ]);
+  const code=(codeRows&&codeRows[0])?codeRows[0].value:'ops2026';
+  document.getElementById('code-display').textContent=code;
+  const members=memberRows||[];
+  document.getElementById('stat-members').textContent=members.length;
+  const totalPlus=(vendorRows||[]).reduce((s,r)=>s+((r.data&&r.data.plusOnes)||0),0);
+  document.getElementById('stat-plusones').textContent=totalPlus;
+  renderMembers(members);
 }
 
-async function loadStats(){
-  try{
-    const r=await window.storage.get(STORAGE_VENDORS,true);
-    if(r&&r.value){
-      const v=JSON.parse(r.value);
-      document.getElementById('stat-vendors').textContent=v.length||102;
-      const total=v.reduce((s,x)=>s+(x.plusOnes||0),0);
-      document.getElementById('stat-plusones').textContent=total;
-    }
-  }catch{}
-}
-
-async function saveSettings(){
-  try{await window.storage.set(STORAGE_SETTINGS,JSON.stringify(settings),true);}
-  catch(e){console.error(e);}
-}
-
-function renderSettings(){
-  document.getElementById('code-display').textContent=settings.code;
-  document.getElementById('stat-members').textContent=settings.members.length;
-  const members=settings.members||[];
+function renderMembers(members){
   document.getElementById('member-count-label').textContent=members.length+' email'+(members.length===1?'':'s');
   const list=document.getElementById('member-list');
-  if(!members.length){list.innerHTML='<div class="empty-members">No members yet. Add emails above to grant access.</div>';return;}
-  list.innerHTML=members.map((m,i)=>`
+  if(!members.length){list.innerHTML='<div class="empty-list">No members yet. Add emails above.</div>';return;}
+  list.innerHTML=members.map(m=>`
     <div class="member-row">
-      <div class="member-email">${m}</div>
-      <button class="btn-remove" onclick="removeMember(${i})" title="Remove">✕ Remove</button>
+      <div class="member-email">${m.email}</div>
+      <div class="member-date">${m.created_at?new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):''}</div>
+      <button class="btn-remove" onclick="removeMember('${m.email}')">✕ Remove</button>
     </div>`).join('');
 }
 
 function showCodeEdit(){
   document.getElementById('code-view-row').style.display='none';
   document.getElementById('code-edit-row').style.display='flex';
-  document.getElementById('code-new-input').value=settings.code;
+  document.getElementById('code-new-input').value=document.getElementById('code-display').textContent;
   document.getElementById('code-new-input').focus();
   document.getElementById('code-saved-msg').style.display='none';
 }
@@ -274,63 +227,55 @@ function hideCodeEdit(){
   document.getElementById('code-edit-row').style.display='none';
 }
 async function saveCode(){
-  const val=document.getElementById('code-new-input').value.trim();
-  if(!val)return;
-  settings.code=val;
-  await saveSettings();
-  hideCodeEdit();
+  const val=document.getElementById('code-new-input').value.trim();if(!val)return;
+  await sbUpsert('settings',{key:'access_code',value:val});
   document.getElementById('code-display').textContent=val;
+  hideCodeEdit();
   document.getElementById('code-saved-msg').style.display='block';
   setTimeout(()=>{document.getElementById('code-saved-msg').style.display='none';},3000);
   toast('Access code updated ✓');
 }
 
-function normEmail(e){return e.trim().toLowerCase();}
+function norm(e){return e.trim().toLowerCase();}
 
 async function addMember(){
   const raw=document.getElementById('new-member-input').value.trim();
-  const err=document.getElementById('member-err');
-  err.style.display='none';
-  if(!raw){return;}
-  const email=normEmail(raw);
+  const err=document.getElementById('member-err');err.style.display='none';
+  if(!raw)return;
+  const email=norm(raw);
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Please enter a valid email.';err.style.display='block';return;}
-  if(settings.members.find(m=>normEmail(m)===email)){err.textContent='This email is already on the list.';err.style.display='block';return;}
-  settings.members.push(email);
+  const r=await sbPost('members',{email});
+  if(r.status===409){err.textContent='This email is already on the list.';err.style.display='block';return;}
   document.getElementById('new-member-input').value='';
-  await saveSettings();
-  renderSettings();
   toast('Member added ✓');
+  loadAll();
 }
 
-async function removeMember(idx){
-  const email=settings.members[idx];
-  if(!confirm(`Remove ${email} from the access list?`))return;
-  settings.members.splice(idx,1);
-  await saveSettings();
-  renderSettings();
+async function removeMember(email){
+  if(!confirm(`Remove ${email}?`))return;
+  await sbDelete('members',`email=eq.${encodeURIComponent(email)}`);
   toast('Member removed');
+  loadAll();
 }
 
 async function bulkImport(){
   const raw=document.getElementById('bulk-input').value;
-  const emails=raw.split(/[\n,;]+/).map(e=>normEmail(e)).filter(e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
-  const newOnes=emails.filter(e=>!settings.members.find(m=>normEmail(m)===e));
-  if(!newOnes.length){document.getElementById('bulk-result').textContent='No new valid emails found.';return;}
-  settings.members.push(...newOnes);
+  const emails=raw.split(/[\n,;]+/).map(e=>norm(e)).filter(e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
+  if(!emails.length){document.getElementById('bulk-result').textContent='No valid emails found.';return;}
+  const rows=emails.map(e=>({email:e}));
+  await sbUpsert('members',rows);
   document.getElementById('bulk-input').value='';
-  document.getElementById('bulk-result').textContent=`✓ Added ${newOnes.length} email${newOnes.length===1?'':'s'}`;
-  await saveSettings();
-  renderSettings();
-  toast(`${newOnes.length} member${newOnes.length===1?' added':'s added'} ✓`);
+  document.getElementById('bulk-result').textContent=`✓ Added ${emails.length} email${emails.length===1?'':'s'}`;
+  toast(`${emails.length} member${emails.length===1?' added':'s added'} ✓`);
   setTimeout(()=>{document.getElementById('bulk-result').textContent='';},4000);
+  loadAll();
 }
 
 async function clearAllMembers(){
-  if(!confirm('Remove ALL members? They will lose access immediately.'))return;
-  settings.members=[];
-  await saveSettings();
-  renderSettings();
+  if(!confirm('Remove ALL members?'))return;
+  await sbDelete('members','id=neq.00000000-0000-0000-0000-000000000000');
   toast('All members removed');
+  loadAll();
 }
 </script>
 </body>

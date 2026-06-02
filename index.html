@@ -247,11 +247,28 @@ header p{margin-top:.5rem;color:rgba(250,248,244,.6);font-size:.88rem;font-weigh
 </div>
 
 <script>
-const STORAGE_SETTINGS='dir-settings-v1';
-const STORAGE_VENDORS='vendors-v1';
-const DEFAULT_CODE='ops2026';
+const SB_URL='https://agldtegvoipsorlbaagr.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnbGR0ZWd2b2lwc29ybGJhYWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MjIxNzUsImV4cCI6MjA5NTk5ODE3NX0.yMBqLDt_N9B8UKNsdReAEDSRLmqkeGMZfr9jVQBPme4';
 const ADMIN_EMAIL='admin@ops.com';
 const ADMIN_CODE='admin2026';
+
+function sbHeaders(){return{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};}
+async function sbGet(table,query=''){
+  const r=await fetch(`${SB_URL}/rest/v1/${table}?${query}`,{headers:sbHeaders()});
+  if(!r.ok)return null;return r.json();
+}
+async function sbPost(table,body){
+  const r=await fetch(`${SB_URL}/rest/v1/${table}`,{method:'POST',headers:{...sbHeaders(),'Prefer':'return=representation'},body:JSON.stringify(body)});
+  return r.ok;
+}
+async function sbUpsert(table,body){
+  const r=await fetch(`${SB_URL}/rest/v1/${table}`,{method:'POST',headers:{...sbHeaders(),'Prefer':'resolution=merge-duplicates,return=representation'},body:JSON.stringify(body)});
+  return r.ok;
+}
+async function sbDelete(table,filter){
+  const r=await fetch(`${SB_URL}/rest/v1/${table}?${filter}`,{method:'DELETE',headers:sbHeaders()});
+  return r.ok;
+}
 
 let currentUser=null,vendors=[],currentFilter='all',currentSearch='',editingId=null;
 
@@ -366,8 +383,15 @@ const SEED=[
 ];
 
 async function getSettings(){
-  try{const r=await window.storage.get(STORAGE_SETTINGS,true);return r?JSON.parse(r.value):{code:DEFAULT_CODE,members:[]};}
-  catch{return{code:DEFAULT_CODE,members:[]};}
+  try{
+    const [codeRows,memberRows]=await Promise.all([
+      sbGet('settings','key=eq.access_code&select=value'),
+      sbGet('members','select=email'),
+    ]);
+    const code=(codeRows&&codeRows[0])?codeRows[0].value:'ops2026';
+    const members=(memberRows||[]).map(m=>m.email);
+    return{code,members};
+  }catch{return{code:'ops2026',members:[]};}
 }
 
 async function tryLogin(){
@@ -410,20 +434,19 @@ function showApp(){
 
 async function loadVendors(){
   try{
-    const r=await window.storage.get(STORAGE_VENDORS,true);
-    if(r&&r.value){
-      const stored=JSON.parse(r.value);
-      const ov={};stored.forEach(v=>{ov[v.id]=v;});
+    const rows=await sbGet('vendor_overrides','select=id,data');
+    if(rows&&rows.length){
+      const ov={};rows.forEach(r=>{ov[r.id]={...r.data,id:r.id};});
       vendors=SEED.map(s=>ov[s.id]?{...s,...ov[s.id]}:{...s});
-      stored.forEach(v=>{if(!v.id.startsWith('s')&&!vendors.find(x=>x.id===v.id))vendors.push(v);});
+      rows.forEach(r=>{if(!r.id.startsWith('s')&&!vendors.find(x=>x.id===r.id))vendors.push({...r.data,id:r.id});});
     }else{vendors=SEED.map(v=>({...v}));}
   }catch{vendors=SEED.map(v=>({...v}));}
   render();
   document.getElementById('tc').textContent=vendors.length+' vendors';
 }
 
-async function saveVendors(){
-  try{await window.storage.set(STORAGE_VENDORS,JSON.stringify(vendors),true);}
+async function saveVendors(v){
+  try{await sbUpsert('vendor_overrides',{id:v.id,data:v,updated_at:new Date().toISOString()});}
   catch(e){console.error(e);}
 }
 
@@ -482,7 +505,7 @@ function doFilter(){currentSearch=document.getElementById('search').value;render
 async function plusOne(id){
   const v=vendors.find(x=>x.id===id);if(!v)return;
   v.plusOnes=(v.plusOnes||0)+1;
-  await saveVendors();render();
+  await saveVendors(v);render();
 }
 
 function clearForm(){
@@ -519,9 +542,9 @@ async function saveVendor(){
   const igRaw=document.getElementById('f-ig').value.trim().replace(/^@/,'');
   const raw={biz,contact:document.getElementById('f-contact').value.trim(),cat,label:document.getElementById('f-label').value.trim()||def[cat],desc:document.getElementById('f-desc').value.trim(),phone:document.getElementById('f-phone').value.trim(),email:document.getElementById('f-email').value.trim(),website:document.getElementById('f-web').value.trim().replace(/^https?:\/\//,''),instagram:igRaw?(igRaw.includes('/')?igRaw:'instagram.com/'+igRaw):'',area:document.getElementById('f-area').value.trim(),by:document.getElementById('f-by').value.trim()||currentUser.split('@')[0],tags:document.getElementById('f-tags').value.split(',').map(t=>t.trim()).filter(Boolean)};
   Object.keys(raw).forEach(k=>{if(raw[k]===''||(Array.isArray(raw[k])&&!raw[k].length))delete raw[k];});
-  if(editingId){const idx=vendors.findIndex(x=>x.id===editingId);if(idx>-1)vendors[idx]={...vendors[idx],...raw};}
-  else{raw.id='u'+Date.now();raw.plusOnes=0;vendors.push(raw);document.getElementById('tc').textContent=vendors.length+' vendors';}
-  await saveVendors();closeModal();render();
+  if(editingId){const idx=vendors.findIndex(x=>x.id===editingId);if(idx>-1){vendors[idx]={...vendors[idx],...raw};await saveVendors(vendors[idx]);}}
+  else{raw.id='u'+Date.now();raw.plusOnes=0;vendors.push(raw);await saveVendors(raw);document.getElementById('tc').textContent=vendors.length+' vendors';}
+  closeModal();render();
 }
 
 (async()=>{
