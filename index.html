@@ -380,7 +380,6 @@ const SEED=[
 {id:'s102',biz:'Rikicop',contact:'',cat:'other',label:'Services',website:'rikicop.com',area:'NYC',tags:['Services'],by:'Liatpd',plusOnes:0},
 
 {id:'s108',biz:'Michael — Field Driver NY',contact:'Michael',cat:'transportation',label:'Transportation',desc:'Personal driver for airport and field errands in New York.',phone:'+1 (917) 468-7749',area:'New York',tags:['Driver','Airport'],by:'Netta',plusOnes:0},
-{id:'s109',biz:'Sortir by Cofula',contact:'',cat:'venue',label:'Venue / Restaurant',desc:'Restaurant and event venue — "Good vibes are better when shared." Unique atmosphere with art and great food.',area:'NYC',tags:['Restaurant','Events','Venue'],by:'Netta',plusOnes:0},
 
 {id:'s111',biz:'Travis Handiman',contact:'Travis',cat:'other',label:'Handyman',desc:'Handyman services in Stuyvesant Town area. $60/hr.',phone:'+1 (718) 288-4856',area:'NYC (Stuytown)',tags:['Handyman','Repairs'],by:'Karen',plusOnes:0},
 {id:'s112',biz:'Larisa Antinia — Small Catering',contact:'Larisa',cat:'catering',label:'Catering (SF)',desc:'Small-scale catering service based in San Francisco.',phone:'+1 (415) 261-5974',area:'San Francisco',tags:['Catering','San Francisco','Small Events'],by:'Netta',plusOnes:0},
@@ -453,25 +452,6 @@ async function tryLogin(){
 }
 }
 
-async function tryLogin(){
-  const email=(document.getElementById('li-email').value||'').trim().toLowerCase();
-  const code=(document.getElementById('li-code').value||'').trim();
-  const err=document.getElementById('li-err');
-  if(!email||!code){err.textContent='Please enter both email and code.';err.style.display='block';return;}
-  const s=await getSettings();
-  const isAdmin=(email===ADMIN_EMAIL&&code===ADMIN_CODE);
-  const memberOk=s.members.find(m=>m.toLowerCase()===email);
-  const codeOk=(code===s.code);
-  if(!isAdmin&&(!memberOk||!codeOk)){
-    err.textContent=!memberOk?'Your email is not on the access list.':'Incorrect code. Please try again.';
-    err.style.display='block';
-    document.getElementById('li-code').value='';
-    return;
-  }
-  currentUser=email;
-  sessionStorage.setItem('dir-user',email);
-  showApp();
-}
 
 function signOut(){
   sessionStorage.removeItem('dir-user');
