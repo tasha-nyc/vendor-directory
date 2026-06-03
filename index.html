@@ -550,7 +550,7 @@ async function plusOne(id){
   const v=vendors.find(x=>x.id===id);if(!v)return;
   const voted=JSON.parse(localStorage.getItem('voted')||'{}');
   const key=currentUser+'_'+id;
-  if(voted[key]){showToast('You already +1'd this vendor!');return;}
+  if(voted[key]){showToast("You already +1'd this vendor!");return;}
   v.plusOnes=(v.plusOnes||0)+1;
   voted[key]=true;
   localStorage.setItem('voted',JSON.stringify(voted));
