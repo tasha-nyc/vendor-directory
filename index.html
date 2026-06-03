@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vendor Directory</title>
+<title>Vendor Directory v3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,6 +74,7 @@ header p{margin-top:.35rem;color:var(--muted);font-size:.85rem}
 .cat-speaker{background:#e3f2fd;color:#0d47a1}.cat-entertainment{background:#fce7f3;color:#9d174d}
 .cat-fitness{background:#dcfce7;color:#166534}.cat-catering{background:#fef3c7;color:#92400e}
 .cat-design{background:#eef2ff;color:#3730a3}.cat-recruiting{background:#fdf4ff;color:#7e22ce}
+.cat-photography{background:#fdf2ff;color:#6b21a8}
 .cat-other{background:#f5f5f5;color:#555}
 
 .desc{font-size:.82rem;color:var(--soft);line-height:1.6}
@@ -176,6 +177,7 @@ header p{margin-top:.35rem;color:var(--muted);font-size:.85rem}
       <button class="fb" onclick="setF('teambuilding',this)">🤝 Team Building</button>
       <button class="fb" onclick="setF('speaker',this)">🎤 Speakers</button>
       <button class="fb" onclick="setF('entertainment',this)">🎭 Entertainment</button>
+    <button class="fb" onclick="setF('photography',this)">📷 Photography</button>
       <button class="fb" onclick="setF('fitness',this)">🧘 Fitness</button>
       <button class="fb" onclick="setF('catering',this)">🍽️ Catering</button>
       <button class="fb" onclick="setF('design',this)">🎨 Design</button>
@@ -211,6 +213,7 @@ header p{margin-top:.35rem;color:var(--muted);font-size:.85rem}
             <option value="catering">🍽️ Catering</option>
             <option value="design">🎨 Design</option>
             <option value="recruiting">🔎 Recruiting</option>
+            <option value="photography">📷 Photography</option>
             <option value="other">More</option>
           </select>
         </div>
@@ -290,7 +293,7 @@ const SEED=[
 {id:'s20',biz:'Swag.com',contact:'',cat:'swag',label:'Swag & Gifts',website:'swag.com',area:'US',tags:['Branded Notebooks','Online'],by:'Group',plusOnes:0},
 {id:'s21',biz:'Mojo Gift',contact:'',cat:'swag',label:'Swag & Gifts',website:'mojo-gift.com',area:'US',tags:['Corporate Gifts'],by:'Group',plusOnes:0},
 {id:'s22',biz:'HRBricks.il',contact:'Hadas',cat:'swag',label:'Swag & Gifts',desc:'Custom LEGO-style figures for anniversary gifts.',email:'hrbricks.il@gmail.com',area:'Israel (ships)',tags:['LEGO','Anniversary'],by:'Gilat',plusOnes:0},
-{id:'s23',biz:'Tmuna NYC',contact:'',cat:'swag',label:'Swag & Gifts',instagram:'instagram.com/tmunanyc',area:'NYC',tags:['Photography','Gifts'],by:'Group',plusOnes:0},
+{id:'s23',biz:'Tmuna NYC',contact:'',cat:'photography',label:'Photography',instagram:'instagram.com/tmunanyc',area:'NYC',tags:['Photography','Gifts'],by:'Group',plusOnes:0},
 {id:'s24',biz:'Greenspoon Marder',contact:'Roy Masuri',cat:'legal',label:'Legal (Immigration)',desc:'Immigration attorney for US visa processes for Israeli executives.',area:'US',tags:['Immigration','Visa'],by:'Ayelet, Mor',plusOnes:0},
 {id:'s25',biz:'Shanni Immigration Law',contact:'Shanni',cat:'legal',label:'Legal (Immigration)',desc:'Two successful visa processes. Highly recommended.',area:'US',tags:['Immigration','Visa'],by:'Eden',plusOnes:0},
 {id:'s26',biz:'Yarden Law',contact:'',cat:'legal',label:'Legal (Immigration)',website:'yardenlaw.com',area:'US',tags:['Immigration','Visa'],by:'Mor',plusOnes:0},
@@ -319,7 +322,7 @@ const SEED=[
 {id:'s49',biz:'Virtual Escape Room',contact:'',cat:'teambuilding',label:'Team Building (Virtual)',desc:"Virtual escape room — 'really fun and competitive.' Great for remote teams.",area:'Virtual',tags:['Virtual','Escape Room','Remote'],by:'Omer',plusOnes:0},
 {id:'s50',biz:'Drag Bingo',contact:'',cat:'teambuilding',label:'Entertainment / Team Activity',desc:"Drag bingo at the office — 'great fun.' Great for Pride Month.",area:'NYC',tags:['Pride','Fun','Office'],by:'Omer',plusOnes:0},
 {id:'s51',biz:"Joe's Coffee",contact:'',cat:'teambuilding',label:'Workshop',desc:"Coffee tasting & cupping at your office. 'High-level, great for a morning event.'",area:'NYC',tags:['Coffee Tasting','Workshop','Morning'],by:'Shlomit',plusOnes:0},
-{id:'s52',biz:'Anin Wine',contact:'Aniv',cat:'teambuilding',label:'Wine Experience',desc:'Wine tasting experiences and events. Branded bottles.',website:'anin.wine',instagram:'instagram.com/anin.wine.experience',email:'aniv@anin.wine',area:'NYC',tags:['Wine Tasting','Branded Bottles'],by:'Karen',plusOnes:0},
+{id:'s52',biz:'Anin Wine Experience',contact:'Aniv',cat:'teambuilding',label:'Wine Experience',desc:"Highly recommended wine tasting workshop — 'one of the best team-building events we've had.' Easy to host in-office at end of day. Workshops in English: Introduction to Wine, Israeli, Italian, French and Spanish wines. Clients include Lemonade, Lightricks and Pearl Cohen.",website:'anin.wine',instagram:'instagram.com/anin.wine.experience',email:'aniv@anin.wine',phone:'+1 (347) 419-0052',area:'NYC',tags:['Wine Tasting','Team Building','Office Event','English'],by:'Karen',plusOnes:0},
 {id:'s53',biz:'Benmarl Winery',contact:'',cat:'teambuilding',label:'Offsite / Winery',desc:"Winery upstate — 'perfect, beauty is outside.'",area:'Upstate NY',tags:['Winery','Offsite','Upstate'],by:'Group',plusOnes:0},
 {id:'s54',biz:'ClassBento',contact:'',cat:'teambuilding',label:'Cooking Class',website:'classbento.com',area:'NYC',tags:['Cooking Class','Workshop'],by:'Gilat',plusOnes:0},
 {id:'s55',biz:'Roll With It',contact:'',cat:'teambuilding',label:'Team Building',desc:"Team building — 'absolutely perfect, bonding and engaging.'",area:'NYC',tags:['Bonding','Activity'],by:'Gilat',plusOnes:0},
@@ -331,25 +334,26 @@ const SEED=[
 {id:'s61',biz:'Daniel Harel — Mentalist',contact:'Daniel Harel',cat:'entertainment',label:'Entertainment',desc:"Mentalist — 'I did a mentalist and it was excellent.'",area:'NYC',tags:['Mentalist','Office Event'],by:'Sophie',plusOnes:0},
 {id:'s62',biz:'Itay Pinky',contact:'Itay',cat:'entertainment',label:'Entertainment',area:'NYC',tags:['Entertainment'],by:'Group',plusOnes:0},
 {id:'s63',biz:'Saar 12',contact:'Saar',cat:'entertainment',label:'Entertainment',area:'NYC',tags:['Entertainment'],by:'Avya',plusOnes:0},
-{id:'s64',biz:'Erez Tal',contact:'Erez Tal',cat:'entertainment',label:'Entertainment / Photography',desc:"Photographer and entertainer. 'The result was amazing!' Also prints photos on wood blocks.",area:'NYC',tags:['Photography','Wood Print'],by:'Adar, Shlomit',plusOnes:0},
+{id:'s64',biz:'Erez Tal',contact:'Erez Tal',cat:'photography',label:'Photography / Entertainment',desc:"Photographer and entertainer. 'The result was amazing!' Also prints photos on wood blocks.",area:'NYC',tags:['Photography','Wood Print'],by:'Adar, Shlomit',plusOnes:0},
 {id:'s65',biz:'Ahhh Massage',contact:'',cat:'entertainment',label:'Wellness',desc:"Chair massage for offices. 'Using for several years, very satisfied.'",website:'ahhhmassage.com',area:'NYC',tags:['Chair Massage','Office Wellness'],by:'Lital',plusOnes:0},
 {id:'s66',biz:'Chen Pilates NY',contact:'Chen',cat:'fitness',label:'Fitness (Pilates)',desc:"'A perfect instructor.'",area:'NYC',tags:['Pilates','Office Classes'],by:'May',plusOnes:0},
 {id:'s67',biz:'Shira Pilates',contact:'Shira',cat:'fitness',label:'Fitness (Pilates)',desc:'Pilates instructor running classes and workshops at companies and offsites.',area:'NYC',tags:['Pilates','Workshops','Offsites'],by:'Lotem',plusOnes:0},
 {id:'s68',biz:'Michal Raz Yoga',contact:'Michal Raz',cat:'fitness',label:'Fitness (Yoga)',desc:'Yoga instructor for office classes.',area:'NYC',tags:['Yoga','Office Classes'],by:'Tamar',plusOnes:0},
-{id:'s69',biz:'Lilach German Fitness',contact:'Lilach German',cat:'fitness',label:'Fitness',instagram:'instagram.com/lilach_german',area:'NYC',tags:['Fitness'],by:'Group',plusOnes:0},
+{id:'s69',biz:'Lilach German',contact:'Lilach German',cat:'teambuilding',label:'Tours & Experiences',desc:'Highly rated group experiences and tours in NYC. Great option for team outings.',instagram:'instagram.com/lilach_german',area:'NYC',tags:['Tours','Group Experience','Team Building'],by:'Group',plusOnes:0},
+{id:'s144',biz:'Tal & Carmel',contact:'Tal & Carmel',cat:'teambuilding',label:'Team Building',desc:'Both highly recommended for group activities and team experiences.',area:'NYC',tags:['Team Building','Group Activities','Experience'],by:'Group',plusOnes:0},
 {id:'s70',biz:'Coffee Cart',contact:'Noy Sitbon',cat:'catering',label:'Coffee Cart',desc:'Mobile coffee cart for events and office occasions.',phone:'+972 52-453-2144',area:'Israel',tags:['Coffee Cart','Events'],by:'Stav',plusOnes:0},
 {id:'s71',biz:'Fistuk',contact:'Rami Kattan',cat:'catering',label:'Catering',area:'NYC / Israel',tags:['Catering','Food'],by:'Ronit',plusOnes:0},
 {id:'s72',biz:'Koplet Borekas',contact:'Liron',cat:'catering',label:'Catering',desc:'Israeli food and borekas catering.',area:'NYC',tags:['Israeli Food','Borekas'],by:'Naty',plusOnes:0},
 {id:'s73',biz:'Sharebite',contact:'',cat:'catering',label:'Food Platform',desc:'Corporate lunch ordering — lower commission than Uber Eats.',website:'sharebite.com',area:'NYC',tags:['Lunch Delivery','Weekly Orders'],by:'Gilat',plusOnes:0},
 {id:'s74',biz:'Mangia NYC',contact:'',cat:'catering',label:'Catering / Restaurant',website:'mangianyc.com',area:'NYC',tags:['Catering','Italian'],by:'Gilat',plusOnes:0},
-{id:'s75',biz:'Miznon NYC',contact:'',cat:'catering',label:'Catering / Restaurant',desc:'Israeli restaurant and catering in NYC.',website:'miznonusa.com',email:'Catering@miznonnyc.com',area:'NYC',tags:['Israeli','Catering'],by:'Dana',plusOnes:0},
+{id:'s75',biz:'Miznon NYC',contact:'Dan Wolfin',cat:'catering',label:'Catering / Restaurant',desc:'Office lunches, team meetings, happy hours and company celebrations. Delivered packages (10–200 guests) and on-site live catering (20–400 guests). Kosher and non-kosher options available.',website:'miznonusa.com',email:'catering@miznonnyc.com',phone:'+1 (347) 662-8480',area:'NYC',tags:['Israeli','Catering','Kosher','Happy Hour','Large Events'],by:'Dana',plusOnes:0},
 {id:'s76',biz:'Daphna Morell',contact:'Daphna Morell',cat:'catering',label:'Private Chef',desc:"Private chef with waiter and sous-chef. Menu built together. 'Really tasty and pleasant.'",phone:'+1 (929) 426-5633',area:'NYC',tags:['Private Chef','Custom Menu'],by:'Niro',plusOnes:0},
 {id:'s77',biz:'Memoballoons',contact:'',cat:'catering',label:'Event Decor',desc:'Custom branded balloons — fast delivery.',email:'memoballoons@gmail.com',area:'NYC',tags:['Balloons','Branded','Decor'],by:'Adar',plusOnes:0},
 {id:'s78',biz:'Oz Shoshan Interior Design',contact:'Oz Shoshan',cat:'design',label:'Interior Design',desc:'Office space branding and design.',phone:'+1 (929) 389-4282',area:'NYC',tags:['Interior Design','Office Branding'],by:'Eden',plusOnes:0},
 {id:'s79',biz:'Vazo Logo',contact:'',cat:'design',label:'Graphic Design / Branding',area:'NYC / Remote',tags:['Logo','Branding'],by:'May',plusOnes:0},
 {id:'s80',biz:'Simple Office LLC',contact:'Rotem',cat:'design',label:'Office Services',area:'NYC',tags:['Office Management'],by:'Netta',plusOnes:0},
 {id:'s81',biz:'Relocate Home',contact:'',cat:'design',label:'Relocation / Design',instagram:'instagram.com/relocate_home',area:'NYC',tags:['Relocation','Office Setup'],by:'Karen',plusOnes:0},
-{id:'s82',biz:'La Boutique Table Spreads',contact:'',cat:'design',label:'Event Decor',instagram:'instagram.com/la.boutiquetablespreads',area:'NYC',tags:['Table Spreads','Event Decor'],by:'Dana',plusOnes:0},
+{id:'s82',biz:'La Boutique Table Spreads',contact:'',cat:'catering',label:'Catering / Decor',desc:'Beautiful breakfast spreads, brunches, and grazing tables — great for office events and team gatherings.',instagram:'instagram.com/la.boutiquetablespreads',area:'NYC',tags:['Grazing Tables','Brunch','Breakfast','Office Events'],by:'Dana',plusOnes:0},
 
 
 {id:'s108',biz:'Michael — Field Driver NY',contact:'Michael',cat:'transportation',label:'Transportation',desc:'Personal driver for airport and field errands in New York.',phone:'+1 (917) 468-7749',area:'New York',tags:['Driver','Airport'],by:'Netta',plusOnes:0},
@@ -370,7 +374,7 @@ const SEED=[
 {id:'s92',biz:'The Furniture X-change',contact:'Sheila',cat:'other',label:'Furniture (Used)',desc:'Second-hand office furniture including phone booths.',area:'NYC',tags:['Used Furniture','Phone Booths'],by:'Amit',plusOnes:0},
 {id:'s93',biz:'Luis Cleaning',contact:'Luis',cat:'other',label:'Cleaning Services',area:'NYC',tags:['Office Cleaning'],by:'Niro',plusOnes:0},
 {id:'s94',biz:'CBRE NYC',contact:'Jason',cat:'other',label:'Real Estate',desc:'Commercial real estate broker for office leasing.',area:'NYC',tags:['Real Estate','Office Space'],by:'Niro',plusOnes:0},
-{id:'s95',biz:'Nitzan Photography',contact:'Nitzan',cat:'other',label:'Photography',area:'NYC',phone:'+1 (609) 231-5451',tags:['Photography','Corporate'],by:'Group',plusOnes:0},
+{id:'s95',biz:'Nitzan Photography',contact:'Nitzan',cat:'photography',label:'Photography',area:'NYC',tags:['Photography','Corporate'],by:'Group',plusOnes:0},
 {id:'s96',biz:'Travel Agent',contact:'Tami Herschaft',cat:'other',label:'Travel Agent',area:'US',tags:['Travel','Corporate'],by:'Rona',plusOnes:0},
 {id:'s97',biz:'Travel Agent',contact:'Shirit Lamm-Gurman',cat:'other',label:'Travel Agent',area:'US',tags:['Travel'],by:'Niro',plusOnes:0},
 {id:'s98',biz:'גיורא מלכה',contact:'גיורא מלכה',cat:'other',label:'Services',phone:'+1 (646) 270-7310',area:'NYC',tags:['Services'],by:'Group',plusOnes:0},
