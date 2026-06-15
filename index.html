@@ -527,49 +527,37 @@ function showApp(){
   loadVendors();
 }
 
-async function loadVendors(){
-  // Always show SEED data immediately
+function loadVendors(){
+  // Load SEED immediately — no async, no waiting
   vendors=SEED.map(v=>({...v}));
   render();
   document.getElementById('tc').textContent=vendors.length+' vendors';
-  // Then try to merge Google Sheet overrides in background (with timeout)
-  try{
+  // Fetch sheet overrides in background, completely non-blocking
+  setTimeout(()=>{
     const controller=new AbortController();
-    const timer=setTimeout(()=>controller.abort(),5000);
-    const res=await fetch(GS_URL+'?t='+Date.now(),{signal:controller.signal});
-    clearTimeout(timer);
-    const rows=await res.json();
-    if(Array.isArray(rows)&&rows.length){
-      const ov={};
-      // Get latest entry per ID (last write wins)
-      rows.forEach(r=>{
-        const id=r['ID']||r.id;
-        if(!id)return;
-        ov[id]={
-          id,
-          biz:r['Business Name']||r.biz||'',
-          contact:r['Contact']||r.contact||'',
-          cat:r['Category']||r.cat||'other',
-          label:r['Label']||r.label||'',
-          desc:r['Description']||r.desc||'',
-          phone:r['Phone']||r.phone||'',
-          email:r['Email']||r.email||'',
-          website:r['Website']||r.website||'',
-          instagram:r['Instagram']||r.instagram||'',
-          area:r['Area']||r.area||'',
-          by:r['Recommended By']||r.by||'',
-          tags:(r['Tags']||'').split(',').map(t=>t.trim()).filter(Boolean),
-          plusOnes:0
-        };
-      });
-      vendors=SEED.map(s=>ov[s.id]?{...s,...ov[s.id]}:{...s});
-      Object.values(ov).forEach(v=>{
-        if(!v.id.startsWith('s')&&!vendors.find(x=>x.id===v.id))vendors.push(v);
-      });
-      render();
-      document.getElementById('tc').textContent=vendors.length+' vendors';
-    }
-  }catch(e){console.log('Sheet load skipped:',e.message);}
+    setTimeout(()=>controller.abort(),4000);
+    fetch(GS_URL+'?t='+Date.now(),{signal:controller.signal})
+      .then(r=>r.json())
+      .then(rows=>{
+        if(!Array.isArray(rows)||!rows.length)return;
+        const ov={};
+        rows.forEach(r=>{
+          const id=r['ID']||r.id;if(!id)return;
+          ov[id]={id,biz:r['Business Name']||r.biz||'',contact:r['Contact']||r.contact||'',
+            cat:r['Category']||r.cat||'other',label:r['Label']||r.label||'',
+            desc:r['Description']||r.desc||'',phone:r['Phone']||r.phone||'',
+            email:r['Email']||r.email||'',website:r['Website']||r.website||'',
+            instagram:r['Instagram']||r.instagram||'',area:r['Area']||r.area||'',
+            by:r['Recommended By']||r.by||'',
+            tags:(r['Tags']||'').split(',').map(t=>t.trim()).filter(Boolean),plusOnes:0};
+        });
+        vendors=SEED.map(s=>ov[s.id]?{...s,...ov[s.id]}:{...s});
+        Object.values(ov).forEach(v=>{if(!v.id.startsWith('s')&&!vendors.find(x=>x.id===v.id))vendors.push(v);});
+        render();
+        document.getElementById('tc').textContent=vendors.length+' vendors';
+      })
+      .catch(()=>{});
+  },100);
 }
 
 async function saveVendors(v){
