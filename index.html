@@ -152,7 +152,7 @@ header p{margin-top:.35rem;color:var(--muted);font-size:.85rem}
         <span class="mp">📅 Jan – May 2026</span>
         <span class="mp" id="tc">— vendors</span>
         <span class="mp">🇺🇸 NYC · FL · NJ &nbsp;🇮🇱 IL</span>
-        <button class="btn-add-h" onclick="openAdd()">
+        <button class="btn-add-h" onclick="openAdd()" id="add-vendor-btn">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Add vendor
         </button>
@@ -248,6 +248,7 @@ header p{margin-top:.35rem;color:var(--muted);font-size:.85rem}
 const SB_URL='https://agldtegvoipsorlbaagr.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnbGR0ZWd2b2lwc29ybGJhYWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MjIxNzUsImV4cCI6MjA5NTk5ODE3NX0.yMBqLDt_N9B8UKNsdReAEDSRLmqkeGMZfr9jVQBPme4';
 const ADMIN_EMAIL='admin@ops.com';
+const GS_URL='https://script.google.com/macros/s/AKfycbx2yEe50JU3fIzCmLzjEJMH76kWq2xPsg14m6fItXKU_Z2XbPgwO4_vBOExQhVhawrE/exec';
 const ADMIN_CODE='admin2026';
 
 function sbHeaders(){return{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};}
@@ -275,8 +276,8 @@ const SEED=[
 {id:'s2',biz:'Michael — Field Driver NY',contact:'Michael',cat:'transportation',label:'Transportation',desc:'Personal driver for airport and field errands.',area:'New York',tags:['Driver','Airport'],by:'Group',plusOnes:0},
 {id:'s3',biz:'Eran — Airport Driver',contact:'Eran',cat:'transportation',label:'Transportation',desc:'Driver with a large vehicle for group airport transfers.',phone:'+1 (201) 937-2096',area:'NYC',tags:['Airport','Group Transfer'],by:'Ayelet',plusOnes:0},
 {id:'s4',biz:'רמי לוי הסעות',contact:'רמי לוי',cat:'transportation',label:'Transportation',desc:'Company trip transportation.',area:'Israel',tags:['Company Trip'],by:'Yuval',plusOnes:0},
-{id:'s5',biz:'Ekotech IT',contact:'Yaniv',cat:'it',label:'IT Services',desc:'On-demand IT services. No retainer needed — available per request.',phone:'Via VCF',area:'NYC',tags:['On-demand','No Contract'],by:'Adar, Sophie, Shahar',plusOnes:0},
-{id:'s6',biz:'Panaya IT',contact:'Yaniv Confino',cat:'it',label:'IT Services',desc:'IT specialist for tech support needs.',area:'NYC / Remote',tags:['IT Support'],by:'Group',plusOnes:0},
+{id:'s5',biz:'Ekotech IT',contact:'Yaniv',cat:'it',label:'IT Services',desc:'On-demand IT services. No retainer needed — available per request.',phone:'+1 (516) 524-7388',area:'NYC',tags:['On-demand','No Contract'],by:'Adar, Sophie, Shahar',plusOnes:0},
+{id:'s6',biz:'Panaya IT',contact:'Yaniv Confino',cat:'it',label:'IT Services',desc:'IT specialist for tech support needs.',phone:'+1 (516) 524-7388',area:'NYC / Remote',tags:['IT Support'],by:'Group',plusOnes:0},
 {id:'s7',biz:'Federico Printing',contact:'Federico',cat:'printing',label:'Printing',desc:'NYC printing for business cards and branded materials.',phone:'+1 (212) 947-7733',area:'NYC',tags:['Business Cards','Branded'],by:'Group',plusOnes:0},
 {id:'s8',biz:'Alon Printing',contact:'Alon',cat:'printing',label:'Printing',desc:'Florida-based printing — great for roll-ups shipped south.',area:'Florida',tags:['Roll-up Banners'],by:'Karen',plusOnes:0},
 {id:'s9',biz:'Vistaprint',contact:'',cat:'printing',label:'Printing',website:'vistaprint.com',area:'Nationwide US',tags:['Online','Roll-ups'],by:'Sophie',plusOnes:0},
@@ -285,7 +286,7 @@ const SEED=[
 {id:'s12',biz:'Embroidme Batchi',contact:'Eran',cat:'printing',label:'Embroidery / Engraving',desc:'Engraving and embroidery for branded items.',phone:'+1 (201) 694-0682',area:'NYC',tags:['Engraving','Embroidery'],by:'Group',plusOnes:0},
 {id:'s13',biz:'KNAM Media',contact:'',cat:'printing',label:'Printing / Media',website:'knammedia.com',email:'service@knammedia.com',area:'US',tags:['Media','Print'],by:'Group',plusOnes:0},
 {id:'s14',biz:'U Can Link It',contact:'Orit',cat:'swag',label:'Swag & Gifts',desc:'Branded merchandise and cocktail kits. Full online shop, works on tight timelines.',website:'ucanlinkit.com/shop',instagram:'instagram.com/ucanlinkit',email:'ucanlinkit@gmail.com',area:'US (LA)',tags:['Branded Swag','Cocktail Kits'],by:'Adva, Dana',plusOnes:0},
-{id:'s15',biz:'Lyn Lovely Swags',contact:'Lynn',cat:'swag',label:'Swag & Gifts',desc:'Swag and gifts supplier, Israel–US.',phone:'+1 (516) 859-3870',area:'NYC / Israel',tags:['Branded Swag','Gifts'],by:'Dana, Rona',plusOnes:0},
+{id:'s15',biz:'Lyn Lovely Swags',contact:'Lynn',cat:'swag',label:'Swag & Gifts',desc:'Swag and gifts supplier, Israel–US.',phone:'+1 (516) 859-3870 / +972 54-283-2339',area:'NYC / Israel',tags:['Branded Swag','Gifts'],by:'Dana, Rona',plusOnes:0},
 {id:'s16',biz:'Meli',contact:'Meli',cat:'swag',label:'Swag & Gifts',phone:'+1 (201) 665-0699',area:'NJ / NYC',tags:['Gifts','Swag'],by:'Rona',plusOnes:0},
 {id:'s17',biz:'Niu Gifts',contact:'Lean Biton',cat:'swag',label:'Swag & Gifts',area:'NYC',tags:['Corporate Gifts'],by:'Group',plusOnes:0},
 {id:'s18',biz:"M&M's Custom",contact:'',cat:'swag',label:'Swag & Gifts',desc:"Custom branded M&M boxes with company logo. Gluten-free available.",website:'mms.com',area:'Nationwide US',tags:["Valentine's",'Branded Chocolate'],by:'Sophie',plusOnes:0},
@@ -302,7 +303,7 @@ const SEED=[
 {id:'s29',biz:'Tasha NYC',contact:'Netta Abramson',cat:'eventplanner',label:'Event Planner',desc:'Event planner and organizer in NYC. Produces events across the US.',website:'tasha.nyc',area:'NYC',tags:['Corporate Events','Offsite'],by:'Shlomit',plusOnes:0},
 {id:'s30',biz:'Moran Events',contact:'Moran',cat:'eventplanner',label:'Event Planner',desc:"Corporate events and office activities — 'vendor of life.'",area:'NYC',tags:['Corporate Events','Office Activities'],by:'Niro',plusOnes:0},
 {id:'s31',biz:'אדוה הפקת אירועים',contact:'Adva',cat:'eventplanner',label:'Event Production',desc:'Event production for larger-scale corporate events.',area:'NYC / Israel',tags:['Event Production','Offsite'],by:'Stav',plusOnes:0},
-{id:'s32',biz:'Lovely Events NYC',contact:'',cat:'eventplanner',label:'Event Planner',desc:'Events company — highly recommended in the group.',instagram:'instagram.com/lovelyeventsnyc',area:'NYC',tags:['Corporate Events','Office'],by:'Sophie',plusOnes:0},
+{id:'s32',biz:'Lovely Events NYC',contact:'Moran',cat:'eventplanner',label:'Event Planner',desc:'Events company — highly recommended in the group.',phone:'+1 (718) 708-9917',instagram:'instagram.com/lovelyeventsnyc',area:'NYC',tags:['Corporate Events','Office'],by:'Sophie',plusOnes:0},
 {id:'s33',biz:'Chef Liron Egozi',contact:'Liron Egozi',cat:'eventplanner',label:'Event Planner / Catering',desc:"Full event production: table design, food, happy hours. 'The table looked incredible.'",phone:'+1 (917) 291-6200',instagram:'instagram.com/lironeg',area:'NYC',tags:['Table Design','Happy Hour','Catering'],by:'Adar, Naty',plusOnes:0},
 {id:'s34',biz:'Carmel Productions NYC',contact:'Roee',cat:'eventplanner',label:'Event Production',website:'carmelproductionsnyc.com',email:'roee@carmelproductionsnyc.com',area:'NYC',tags:['Event Production'],by:'Group',plusOnes:0},
 {id:'s35',biz:'Glass Ceiling Rooftop',contact:'',cat:'venue',label:'Venue',desc:'Rooftop event venue — great food, open bar, affordable.',website:'glassceilingrooftop.com',area:'NYC',tags:['Rooftop','Open Bar','40–70 pax'],by:'Eden',plusOnes:0},
@@ -332,7 +333,7 @@ const SEED=[
 {id:'s59',biz:'Adva Dayan',contact:'Osnat Fried Laznik',cat:'speaker',label:'Speaker',desc:"Lectures and workshops — 'deep and practical.'",website:'advadayan.com',area:'US / Israel',tags:['Speaker','Organizational'],by:'Group',plusOnes:0},
 {id:'s60',biz:'Financial Wellness Workshop',contact:'',cat:'speaker',label:'Speaker / Workshop',desc:'Financial wellness: investments, debt, savings — adapted by employee age. Optional 1:1 advisory.',area:'NYC',tags:['Financial Wellness','Benefits'],by:'Mor',plusOnes:0},
 {id:'s61',biz:'Daniel Harel — Mentalist',contact:'Daniel Harel',cat:'entertainment',label:'Entertainment',desc:"Mentalist — 'I did a mentalist and it was excellent.'",area:'NYC',tags:['Mentalist','Office Event'],by:'Sophie',plusOnes:0},
-{id:'s62',biz:'Itay Pinky',contact:'Itay',cat:'entertainment',label:'Entertainment',area:'NYC',tags:['Entertainment'],by:'Group',plusOnes:0},
+{id:'s62',biz:'Itay Pinky',contact:'Itay',cat:'entertainment',label:'Entertainment',phone:'+972 54-790-6343',area:'NYC',tags:['Entertainment'],by:'Group',plusOnes:0},
 {id:'s63',biz:'Saar 12',contact:'Saar',cat:'entertainment',label:'Entertainment',area:'NYC',tags:['Entertainment'],by:'Avya',plusOnes:0},
 {id:'s64',biz:'Erez Tal',contact:'Erez Tal',cat:'photography',label:'Photography / Entertainment',desc:"Photographer and entertainer. 'The result was amazing!' Also prints photos on wood blocks.",area:'NYC',tags:['Photography','Wood Print'],by:'Adar, Shlomit',plusOnes:0},
 {id:'s65',biz:'Ahhh Massage',contact:'',cat:'entertainment',label:'Wellness',desc:"Chair massage for offices. 'Using for several years, very satisfied.'",website:'ahhhmassage.com',area:'NYC',tags:['Chair Massage','Office Wellness'],by:'Lital',plusOnes:0},
@@ -340,10 +341,20 @@ const SEED=[
 {id:'s67',biz:'Shira Pilates',contact:'Shira',cat:'fitness',label:'Fitness (Pilates)',desc:'Pilates instructor running classes and workshops at companies and offsites.',area:'NYC',tags:['Pilates','Workshops','Offsites'],by:'Lotem',plusOnes:0},
 {id:'s68',biz:'Michal Raz Yoga',contact:'Michal Raz',cat:'fitness',label:'Fitness (Yoga)',desc:'Yoga instructor for office classes.',area:'NYC',tags:['Yoga','Office Classes'],by:'Tamar',plusOnes:0},
 {id:'s69',biz:'Lilach German',contact:'Lilach German',cat:'teambuilding',label:'Tours & Experiences',desc:'Highly rated group experiences and tours in NYC. Great option for team outings.',instagram:'instagram.com/lilach_german',area:'NYC',tags:['Tours','Group Experience','Team Building'],by:'Group',plusOnes:0},
-{id:'s144',biz:'Tal & Carmel',contact:'Tal & Carmel',cat:'teambuilding',label:'Team Building',desc:'Both highly recommended for group activities and team experiences.',area:'NYC',tags:['Team Building','Group Activities','Experience'],by:'Group',plusOnes:0},
-{id:'s70',biz:'Coffee Cart',contact:'Noy Sitbon',cat:'catering',label:'Coffee Cart',desc:'Mobile coffee cart for events and office occasions.',phone:'+972 52-453-2144',area:'Israel',tags:['Coffee Cart','Events'],by:'Stav',plusOnes:0},
+{id:'s150',biz:'Lara Makh',contact:'Lara Makh',cat:'swag',label:'Swag & Gifts',desc:'Small branded gifts and accessories for employees. Great for branded merchandise with company name.',area:'NYC',tags:['Branded Gifts','Swag','Employees'],by:'Ilanit',plusOnes:0},
+{id:'s162',biz:'Karen — Driver',contact:'Karen',cat:'transportation',label:'Transportation',desc:'Driver for airport runs and field errands.',phone:'+1 (718) 637-7604',area:'NYC',tags:['Driver','Airport','Transportation'],by:'Netta',plusOnes:0},contact:'',cat:'catering',label:'Donuts / Bakery',desc:'Artisan donuts perfect for office events and team treats.',website:'doughdoughnuts.com',area:'NYC',tags:['Donuts','Bakery','Office Treats','Events'],by:'Netta',plusOnes:0},
+{id:'s159',biz:"Homie's Donuts",contact:'',cat:'catering',label:'Donuts / Bakery',desc:'Custom and decorated donuts for office events.',website:'homiesdonuts.com',area:'NYC',tags:['Donuts','Bakery','Custom','Events'],by:'Netta',plusOnes:0},
+{id:'s160',biz:'Liberty Bagels',contact:'',cat:'catering',label:'Bagels / Breakfast',desc:'NYC bagels — great for office breakfasts and morning events.',website:'libertybagels.com',area:'NYC',tags:['Bagels','Breakfast','Office Events'],by:'Netta',plusOnes:0},
+{id:'s161',biz:'Magnolia Bakery',contact:'',cat:'catering',label:'Bakery / Cupcakes',desc:'Iconic NYC bakery — cupcakes, cakes and baked goods for office events and celebrations.',website:'magnoliabakery.com',area:'NYC / Nationwide',tags:['Cupcakes','Cakes','Bakery','Events'],by:'Netta',plusOnes:0},contact:'Josh',cat:'catering',label:'Wine / Gifts',desc:'Wine supplier for corporate gifts and events.',phone:'+1 (201) 689-4855',area:'US',tags:['Wine','Corporate Gifts','Events'],by:'Netta',plusOnes:0},
+{id:'s155',biz:'Vega',contact:'Perri',cat:'recruiting',label:'Office Manager Hiring',desc:'Hiring platform for office managers.',email:'perri@vega.io',area:'US',tags:['Recruiting','Office Manager'],by:'Netta',plusOnes:0},
+{id:'s156',biz:'Novia101',contact:'Ortal',cat:'other',label:'HR AI',desc:'AI-powered HR platform.',email:'ortal@novia101.io',website:'novia101.io',area:'US / Israel',tags:['HR','AI','Tech'],by:'Netta',plusOnes:0},
+{id:'s157',biz:'ESH',contact:'Dana',cat:'recruiting',label:'CRO Search / Recruiting',desc:'CRO and executive search recruiting.',email:'danaa@esh.com',area:'US',tags:['Recruiting','CRO','Executive Search'],by:'Netta',plusOnes:0},contact:'Niloo',cat:'swag',label:'Swag & Gifts',desc:'Promotional products and marketing agency. Ships worldwide including Israel.',phone:'+1 (323) 933-7448',email:'niloo@bovaryandbutterfly.com',website:'bovaryandbutterfly.com',area:'Los Angeles, CA / Worldwide',tags:['Branded Swag','Promotional','Worldwide Shipping'],by:'Netta',plusOnes:0},
+{id:'s151',biz:'The Escape Game NYC',contact:'',cat:'teambuilding',label:'Team Building',desc:'Highly rated escape rooms in Midtown NYC. Great for team outings and group experiences.',website:'theescapegame.com/newyorkcity',area:'NYC (Midtown)',tags:['Escape Room','Team Building','Group Activity'],by:'Group',plusOnes:0},
+{id:'s152',biz:'Swingers NoMad',contact:'',cat:'teambuilding',label:'Team Building / Venue',desc:'Crazy golf and cocktails in NoMad. Fun team outing venue.',website:'swingers.club',area:'NYC (NoMad, 35 W 29th St)',tags:['Mini Golf','Cocktails','Team Outing'],by:'Group',plusOnes:0},contact:'',cat:'entertainment',label:'Digital Caricature',desc:'Turns every guest into a one-of-a-kind caricature — printed on the spot. Digital caricature entertainment for corporate events, weddings and mitzvahs.',website:'art-booth.com',area:'NYC',tags:['Caricature','Entertainment','Corporate Events','Photo Booth'],by:'Sophie',plusOnes:0},
+{id:'s149',biz:'Asaf DJ',contact:'Asaf',cat:'entertainment',label:'DJ',desc:'DJ for corporate events and parties.',phone:'+1 (718) 844-3117',area:'NYC',tags:['DJ','Music','Events'],by:'Netta',plusOnes:0},contact:'Raaya Efrati',cat:'speaker',label:'Speaker / Coach',desc:'Consultant and coach with extensive experience. Pitching workshops and leadership development for managers. Based in Israel, works with Israeli-American teams.',website:'linkedin.com/in/raayaefrati',area:'Israel / US',tags:['Coach','Workshop','Pitching','Leadership'],by:'Tamar',plusOnes:0}, — Video Editor',contact:'Inbar Zana',cat:'photography',label:'Video Editing',desc:'Looking for a short film editor or video editor for short films (filming and editing) — Israeli/American.',phone:'+1 (201) 314-5153',area:'NYC / US',tags:['Video Editing','Short Film','Israeli-American'],by:'Netta',plusOnes:0},contact:'',cat:'catering',label:'Juice & Wellness',desc:'Cold-pressed juices and wellness shots. Great for office events, morning sessions and healthy gifting. Order online.',website:'pressed.com',area:'Nationwide US',tags:['Juice','Wellness','Office Events','Healthy'],by:'Netta',plusOnes:0},contact:'Tal & Carmel',cat:'teambuilding',label:'Team Building',desc:'Both highly recommended for group activities and team experiences.',area:'NYC',tags:['Team Building','Group Activities','Experience'],by:'Group',plusOnes:0},
+{id:'s70',biz:'Coffee Cart NYC',contact:'Noy Sitbon',cat:'catering',label:'Coffee Cart',desc:'Mobile coffee cart for events and office occasions.',phone:'+972 52-453-2144',area:'NYC / Israel',tags:['Coffee Cart','Events'],by:'Stav',plusOnes:0},
 {id:'s71',biz:'Fistuk',contact:'Rami Kattan',cat:'catering',label:'Catering',area:'NYC / Israel',tags:['Catering','Food'],by:'Ronit',plusOnes:0},
-{id:'s72',biz:'Koplet Borekas',contact:'Liron',cat:'catering',label:'Catering',desc:'Israeli food and borekas catering.',area:'NYC',tags:['Israeli Food','Borekas'],by:'Naty',plusOnes:0},
+{id:'s72',biz:'Koplet Borekas',contact:'Liron',cat:'catering',label:'Catering',desc:'Israeli food and borekas catering.',phone:'+1 (917) 291-6200',area:'NYC',tags:['Israeli Food','Borekas'],by:'Naty',plusOnes:0},
 {id:'s73',biz:'Sharebite',contact:'',cat:'catering',label:'Food Platform',desc:'Corporate lunch ordering — lower commission than Uber Eats.',website:'sharebite.com',area:'NYC',tags:['Lunch Delivery','Weekly Orders'],by:'Gilat',plusOnes:0},
 {id:'s74',biz:'Mangia NYC',contact:'',cat:'catering',label:'Catering / Restaurant',website:'mangianyc.com',area:'NYC',tags:['Catering','Italian'],by:'Gilat',plusOnes:0},
 {id:'s75',biz:'Miznon NYC',contact:'Dan Wolfin',cat:'catering',label:'Catering / Restaurant',desc:'Office lunches, team meetings, happy hours and company celebrations. Delivered packages (10–200 guests) and on-site live catering (20–400 guests). Kosher and non-kosher options available.',website:'miznonusa.com',email:'catering@miznonnyc.com',phone:'+1 (347) 662-8480',area:'NYC',tags:['Israeli','Catering','Kosher','Happy Hour','Large Events'],by:'Dana',plusOnes:0},
@@ -437,6 +448,43 @@ async function getSettings(){
   }catch{return{code:'ops2026',members:[],loaded:false};}
 }
 
+const ALLOWED_EMAILS=[
+  'shalitshlomit@gmail.com',
+  'orly.levi2025@gmail.com',
+  'ilanit.solomonovici@gmail.com',
+  'tammy.levy@noma.security',
+  'lshuker@gmail.com',
+  'danielisraeli237@gmail.com',
+  'benkin@getbalance.com',
+  'maya.benjonathan@unit.co',
+  'tal.zur@hellosimply.com',
+  'maym@nimbleway.com',
+  'nirlev84@gmail.com',
+  'sophie.kotler@guidde.co',
+  'amit.m@team8.vc',
+  'tam.gur@gmail.com',
+  'tgur@varonis.com',
+  'inbarz@zenity.io',
+  'shahar.shalom@darrow.ai',
+  'rosenfeldmaya@gmail.com',
+  'giladxmeushar@gmail.com',
+  'mor.k@hyro.ai',
+  'liangalshahar@gmail.com',
+  'shiryigster@gmail.com',
+  'yosefa.aboudi@oasis.security',
+  'erika.kringel@gmail.com',
+  'noakadmon7@gmail.com',
+  'litooshops1@gmail.com',
+  'rotem@nagish.com',
+  'dana@scaleops.com',
+  'hadas@visitt.io',
+  'rachel.epstein@exodigo.ai',
+  'jennifer.polin@exodigo.ai',
+  'yaelhal@gmail.com',
+  'keren.desytnik@yotpo.com',
+  'hadar@zafran.io',
+];
+
 async function tryLogin(){
   const email=(document.getElementById('li-email').value||'').trim().toLowerCase();
   const code=(document.getElementById('li-code').value||'').trim();
@@ -444,15 +492,13 @@ async function tryLogin(){
   if(!email){err.textContent='Please enter your email.';err.style.display='block';return;}
   if(!code){err.textContent='Please enter the access code.';err.style.display='block';return;}
   err.style.display='none';
-  if(code==='ops2026'||email===ADMIN_EMAIL){
-    currentUser=email;
-    sessionStorage.setItem('dir-user',email);
-    showApp();
-  } else {
-    err.textContent='Incorrect code. Please try again.';
-    err.style.display='block';
-    document.getElementById('li-code').value='';
-  }
+  const isAdmin=(email===ADMIN_EMAIL&&code===ADMIN_CODE);
+  if(isAdmin){currentUser=email;sessionStorage.setItem('dir-user',email);showApp();return;}
+  const memberOk=ALLOWED_EMAILS.includes(email);
+  const codeOk=(code==='ops2026');
+  if(!memberOk){err.textContent='Your email is not on the access list.';err.style.display='block';return;}
+  if(!codeOk){err.textContent='Incorrect code. Please try again.';err.style.display='block';document.getElementById('li-code').value='';return;}
+  currentUser=email;sessionStorage.setItem('dir-user',email);showApp();
 }
 
 
@@ -471,16 +517,34 @@ function showApp(){
   document.getElementById('app').style.display='block';
   const name=currentUser.split('@')[0];
   document.getElementById('user-pill').textContent='👤 '+name;
+  // Only show admin controls for admin
+  const isAdmin=currentUser===ADMIN_EMAIL;
+  document.getElementById('add-vendor-btn').style.display=isAdmin?'flex':'none';
   loadVendors();
 }
 
 async function loadVendors(){
   try{
-    const rows=await sbGet('vendor_overrides','select=id,data');
-    if(rows&&rows.length){
-      const ov={};rows.forEach(r=>{ov[r.id]={...r.data,id:r.id};});
+    const res=await fetch(GS_URL);
+    const rows=await res.json();
+    if(Array.isArray(rows)&&rows.length){
+      const ov={};
+      rows.forEach(r=>{
+        const id=r['ID']||r.id;
+        if(!id)return;
+        ov[id]={
+          id,biz:r['Business Name']||r.biz,contact:r['Contact']||r.contact,
+          cat:r['Category']||r.cat,label:r['Label']||r.label,
+          desc:r['Description']||r.desc,phone:r['Phone']||r.phone,
+          email:r['Email']||r.email,website:r['Website']||r.website,
+          instagram:r['Instagram']||r.instagram,area:r['Area']||r.area,
+          by:r['Recommended By']||r.by,
+          tags:(r['Tags']||'').split(',').map(t=>t.trim()).filter(Boolean),
+          plusOnes:0
+        };
+      });
       vendors=SEED.map(s=>ov[s.id]?{...s,...ov[s.id]}:{...s});
-      rows.forEach(r=>{if(!r.id.startsWith('s')&&!vendors.find(x=>x.id===r.id))vendors.push({...r.data,id:r.id});});
+      Object.values(ov).forEach(v=>{if(!v.id.startsWith('s')&&!vendors.find(x=>x.id===v.id))vendors.push(v);});
     }else{vendors=SEED.map(v=>({...v}));}
   }catch{vendors=SEED.map(v=>({...v}));}
   render();
@@ -488,8 +552,12 @@ async function loadVendors(){
 }
 
 async function saveVendors(v){
-  try{await sbUpsert('vendor_overrides',{id:v.id,data:v,updated_at:new Date().toISOString()});}
-  catch(e){console.error(e);}
+  try{
+    await fetch(GS_URL,{
+      method:'POST',
+      body:JSON.stringify({...v,action:'edit',submittedBy:currentUser}),
+    });
+  }catch(e){console.error('Sheet save error:',e);}
 }
 
 function igH(url){return url.replace(/.*instagram\.com\//,'').replace(/\?.*/,'').replace(/\/$/,'');}
