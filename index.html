@@ -273,7 +273,7 @@ let currentUser=null,vendors=[],currentFilter='all',currentSearch='',editingId=n
 
 const SEED=[
 {id:'s1',biz:'Carmel Transportation',contact:'',cat:'transportation',label:'Transportation',desc:'Car service for airport runs and business travel.',phone:'+1 (212) 666-6666',website:'carmellimo.com',area:'NYC',tags:['Airport','Car Service'],by:'Group',plusOnes:0},
-{id:'s2',biz:'Michael — Field Driver NY',contact:'Michael',cat:'transportation',label:'Transportation',desc:'Personal driver for airport and field errands.',area:'New York',tags:['Driver','Airport'],by:'Group',plusOnes:0},
+{id:'s2',biz:'Michael — Field Driver NY',contact:'Michael',cat:'transportation',label:'Transportation',desc:'Personal driver for airport and field errands.',phone:'+1 (917) 468-7749',area:'New York',tags:['Driver','Airport'],by:'Group',plusOnes:0},
 {id:'s3',biz:'Eran — Airport Driver',contact:'Eran',cat:'transportation',label:'Transportation',desc:'Driver with a large vehicle for group airport transfers.',phone:'+1 (201) 937-2096',area:'NYC',tags:['Airport','Group Transfer'],by:'Ayelet',plusOnes:0},
 {id:'s4',biz:'רמי לוי הסעות',contact:'רמי לוי',cat:'transportation',label:'Transportation',desc:'Company trip transportation.',area:'Israel',tags:['Company Trip'],by:'Yuval',plusOnes:0},
 {id:'s5',biz:'Ekotech IT',contact:'Yaniv',cat:'it',label:'IT Services',desc:'On-demand IT services. No retainer needed — available per request.',phone:'+1 (516) 524-7388',area:'NYC',tags:['On-demand','No Contract'],by:'Adar, Sophie, Shahar',plusOnes:0},
@@ -434,6 +434,27 @@ const SEED=[
 {id:'s105',biz:'Todd Schor',contact:'Todd Schor',cat:'other',label:'Entertainment',area:'NYC',tags:['Entertainment'],by:'Gilad',plusOnes:0},
 {id:'s106',biz:'Ashley Kablu',contact:'Ashley',cat:'other',label:'Services',area:'US',tags:['Services'],by:'Group',plusOnes:0},
 {id:'s107',biz:'Ayelet Nathaniel Recruiting',contact:'Ayelet Nathaniel',cat:'recruiting',label:'Recruiter',area:'US',tags:['Recruiting','HR'],by:'Group',plusOnes:0},
+
+{id:'s144',biz:'Luis Cleaning',contact:'Luis',cat:'other',label:'Office Cleaning',desc:'Office cleaning services.',phone:'+1 (347) 720-9302',area:'NYC',tags:['Cleaning','Office'],by:'Group',plusOnes:0},
+{id:'s145',biz:'Oz Shoshan Interior Design',contact:'Oz Shoshan',cat:'design',label:'Office & Interior Design',desc:'Office and interior design services.',phone:'+1 (929) 389-4282',area:'NYC',tags:['Interior Design','Office Design'],by:'Group',plusOnes:0},
+{id:'s146',biz:'Noy Sitbon Coffee Cart',contact:'Noy Sitbon',cat:'catering',label:'Coffee Cart',desc:'Coffee cart for events and office activations.',phone:'+972 52-453-2144',area:'NYC / Israel',tags:['Coffee Cart','Events','Catering'],by:'Group',plusOnes:0},
+{id:'s147',biz:'Revital Wellness',contact:'Revital',cat:'fitness',label:'Wellness Programs',desc:'Wellness programs and employee wellbeing.',phone:'+1 (646) 812-1080',area:'NYC',tags:['Wellness','Employee Experience'],by:'Group',plusOnes:0},
+{id:'s148',biz:'Guy Horowitz — AI Speaker',contact:'Guy Horowitz',cat:'speaker',label:'Speaker / AI Workshops',desc:'AI speaker and corporate AI training workshops.',phone:'+1 (650) 223-4783',website:'linkedin.com/in/guyhorowitz/',area:'US',tags:['AI','Speaker','Workshop','Corporate Training'],by:'Group',plusOnes:0},
+{id:'s149',biz:'Gilat Bachar — Custom Cookies',contact:'Gilat Bachar',cat:'catering',label:'Cookies & Desserts',desc:'Custom cookies and branded desserts for events.',phone:'+1 (201) 835-6642',area:'NJ / NYC',tags:['Cookies','Branded Desserts','Custom','Events'],by:'Group',plusOnes:0},
+{id:'s150',biz:'Revital Vdnai Recruiting',contact:'Revital Vdnai',cat:'recruiting',label:'Recruiter',desc:'Recruiting, talent acquisition, and HR hiring.',phone:'+972 54-694-9401',area:'US / Israel',tags:['Recruiting','HR','Talent Acquisition'],by:'Group',plusOnes:0},
+{id:'s151',biz:'Bovary & Butterfly',contact:'Niloo',cat:'swag',label:'Swag & Gifts',desc:'Premium swag and corporate gifts.',website:'bovaryandbutterfly.com',email:'niloo@bovaryandbutterfly.com',area:'US',tags:['Premium Swag','Corporate Gifts'],by:'Group',plusOnes:0},
+{id:'s152',biz:'Boarderie',contact:'',cat:'swag',label:'Corporate Food Gifts',desc:'Corporate food gift boxes.',website:'boarderie.com',area:'US',tags:['Food Gifts','Corporate Gifts','Gift Boxes'],by:'Group',plusOnes:0},
+{id:'s153',biz:'Sharebite',contact:'',cat:'catering',label:'Corporate Meal Program',desc:'Corporate meal programs for employees.',website:'sharebite.com',area:'US',tags:['Meal Program','Employee Meals'],by:'Group',plusOnes:0},
+{id:'s154',biz:'Forkable',contact:'',cat:'catering',label:'Employee Meal Delivery',desc:'Employee meal delivery service.',website:'forkable.com',area:'US',tags:['Meal Delivery','Employee Meals'],by:'Group',plusOnes:0},
+{id:'s155',biz:'Notarize',contact:'',cat:'legal',label:'Online Notary',desc:'Online notary services.',website:'notarize.com',area:'US',tags:['Notary','Legal','Online'],by:'Group',plusOnes:0},
+{id:'s156',biz:'Memo Balloons',contact:'',cat:'other',label:'Balloons / Decor',desc:'Branded balloon decorations for events.',email:'memoballoons@gmail.com',area:'NYC',tags:['Balloons','Decor','Branded'],by:'Group',plusOnes:0},
+{id:'s157',biz:'Royal Wine',contact:'Josh',cat:'swag',label:'Wine Supplier',desc:'Wine supplier for corporate events and gifts.',phone:'(201) 689-4855',area:'NJ / NYC',tags:['Wine','Corporate Gifts','Events'],by:'Group',plusOnes:0},
+{id:'s158',biz:'Little Cupcake Bakeshop',contact:'',cat:'catering',label:'Cupcakes & Cakes',desc:'Cupcakes, cakes, and corporate event catering.',instagram:'instagram.com/littlecupcakebakeshop',area:'NYC',tags:['Cupcakes','Cakes','Corporate Events'],by:'Sophie',plusOnes:0},
+{id:'s159',biz:'Magnolia Bakery',contact:'',cat:'catering',label:'Bakery / Catering',desc:'Bakery and corporate catering.',website:'magnoliabakery.com',area:'NYC',tags:['Bakery','Corporate Catering'],by:'Maya',plusOnes:0},
+{id:'s160',biz:'Dough Doughnuts',contact:'',cat:'catering',label:'Donuts / Catering',website:'doughdoughnuts.com',area:'NYC',tags:['Donuts','Catering','Breakfast'],by:'Maya',plusOnes:0},
+{id:'s161',biz:"Homie's Donuts",contact:'',cat:'catering',label:'Donuts / Catering',website:'homiesdonuts.com',area:'NYC',tags:['Donuts','Catering','Breakfast'],by:'Maya',plusOnes:0},
+{id:'s162',biz:'Liberty Bagels',contact:'',cat:'catering',label:'Breakfast Catering',website:'libertybagels.com',area:'NYC',tags:['Bagels','Breakfast','Catering'],by:'Maya',plusOnes:0},
+{id:'s163',biz:'Mangia NYC',contact:'',cat:'catering',label:'Corporate Catering',website:'mangia.nyc',area:'NYC',tags:['Catering','Corporate','Lunch'],by:'Group',plusOnes:0},
 ];
 
 async function getSettings(){
