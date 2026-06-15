@@ -532,9 +532,12 @@ async function loadVendors(){
   vendors=SEED.map(v=>({...v}));
   render();
   document.getElementById('tc').textContent=vendors.length+' vendors';
-  // Then try to merge Google Sheet overrides in background
+  // Then try to merge Google Sheet overrides in background (with timeout)
   try{
-    const res=await fetch(GS_URL+'?t='+Date.now());
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),5000);
+    const res=await fetch(GS_URL+'?t='+Date.now(),{signal:controller.signal});
+    clearTimeout(timer);
     const rows=await res.json();
     if(Array.isArray(rows)&&rows.length){
       const ov={};
