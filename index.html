@@ -126,7 +126,6 @@ header p{margin-top:.35rem;color:var(--muted);font-size:.85rem}
       <div class="login-logo">Vendor <em>Directory</em></div>
 
     </div>
-    <div class="lf"><label>Your name</label><input id="li-name" type="text" placeholder="First name" autocomplete="given-name"></div>
     <div class="lf"><label>Access code</label><input id="li-code" type="password" placeholder="••••••" onkeydown="if(event.key==='Enter')tryLogin()"></div>
     <button class="btn-login" onclick="tryLogin()">Enter directory →</button>
     <div class="login-err" id="li-err"></div>
@@ -490,15 +489,14 @@ const ALLOWED_EMAILS=[
 ];
 
 function tryLogin(){
-  const name=(document.getElementById('li-name').value||'').trim();
   const code=(document.getElementById('li-code').value||'').trim();
   const err=document.getElementById('li-err');
-  if(!name){err.textContent='Please enter your name.';err.style.display='block';return;}
   if(!code){err.textContent='Please enter the access code.';err.style.display='block';return;}
   err.style.display='none';
-  if(code===ADMIN_CODE&&name.toLowerCase()==='admin'){currentUser=ADMIN_EMAIL;sessionStorage.setItem('dir-user',ADMIN_EMAIL);showApp();return;}
-  if(code!=='ops2026'){err.textContent='Incorrect code. Please try again.';err.style.display='block';document.getElementById('li-code').value='';return;}
-  currentUser=name;sessionStorage.setItem('dir-user',name);showApp();
+  if(code===ADMIN_CODE){currentUser=ADMIN_EMAIL;sessionStorage.setItem('dir-user',ADMIN_EMAIL);showApp();return;}
+  if(code==='ops2026'){currentUser='member';sessionStorage.setItem('dir-user','member');showApp();return;}
+  err.textContent='Incorrect code. Please try again.';err.style.display='block';
+  document.getElementById('li-code').value='';
 }
 
 
@@ -507,7 +505,7 @@ function signOut(){
   currentUser=null;
   document.getElementById('app').style.display='none';
   document.getElementById('login-screen').style.display='flex';
-  document.getElementById('li-name').value='';
+  
   document.getElementById('li-code').value='';
   document.getElementById('li-err').style.display='none';
 }
@@ -515,7 +513,7 @@ function signOut(){
 function showApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
-  const name=currentUser.split('@')[0];
+  const name=currentUser===ADMIN_EMAIL?'Admin':'Member';
   document.getElementById('user-pill').textContent='👤 '+name;
   // Only show admin controls for admin
   const isAdmin=currentUser===ADMIN_EMAIL;
@@ -684,7 +682,7 @@ async function saveVendor(){
 (function(){
   const saved=sessionStorage.getItem('dir-user');
   if(saved){currentUser=saved;showApp();return;}
-  document.getElementById('li-name').focus();
+  document.getElementById('li-code').focus();
 })();
 </script>
 </body>
